@@ -1,0 +1,846 @@
+* {
+    padding: 0;
+    margin: 0;
+    top: 0;
+    color: rgb(12, 253, 4);
+    
+}  *
+.monopoly-board{
+    position: absolute;
+    margin-left: 200px;
+    width: 85%;
+    height: 1400px;
+    border: 2px solid black;
+    /* background-color: #c0e2ca ; */
+    background-color: black;
+    cursor: pointer;
+    text-align: center;
+    z-index: 1;
+}
+#name{
+    text-align: center;
+    position: absolute; 
+    top: 130%;
+    left: 25%;
+}
+#logo img{
+    width: 39%;
+    position: absolute;
+    z-index: 3;
+    top: 30%;
+    left: 26%;
+    transform: rotate(-50deg);
+}
+#chance {
+    position: absolute;
+    padding: 30px;
+    top: 25%;
+    left: 20%;
+    transform: rotate(-45deg);
+    border: 2px dashed rgb(12, 253, 4);
+}
+#communityChest {
+    position: absolute;
+    top: 60%;
+    padding: 20px;
+    left: 55%;
+    border: 2px dashed rgb(12, 253, 4);
+    transform: rotate(130deg);
+}
+#passGo{
+    position: absolute;
+    padding: 5px;
+    transform: rotate(-50deg);
+    margin-left: 85px;
+    top: 88%; 
+    left: 85%; 
+    line-height: 12pt; 
+    z-index: 1000;
+}
+#goArrow img{
+    width: 150px;
+    position: absolute;
+    margin-left: 650px;
+    margin-top: 1360px;
+}
+#go{
+    position: absolute;
+    margin-left: 85px;
+    font-size: 40px;
+    transform: rotate(-50deg);
+    top: 90%;
+    left: 87%;
+}
+h1 { 
+    text-align: center;
+}
+#left-border{
+    background-color: red;
+    position: absolute;
+    margin-left: 150px; 
+    width: 3px;
+    height: 1400px;
+    z-index: 12;
+}
+
+#right-border{
+    background-color: red;
+    position: absolute;
+    margin-left: 1450px;
+    width: 3px;
+    height: 1400px;
+}
+#top-border{
+    background-color: red;
+    position: absolute;
+    width: 1615px;
+    height: 3px;
+    margin-top: 0px; 
+    top: 140px;
+}
+#bottom-border{
+    background-color: red;
+    position: absolute; 
+    width: 1615px;
+    height: 3px;
+    margin-top: 1075px; 
+}
+
+#Community-chest-row-1, #Baltic-Avenue, #Income-Tax, #Reading-Railroad, #Oriental-Avenue, #Chance-row-1, #Vermont-Avenue, #Fat-Connecticut-Avenue {
+    background-color: red;
+    position: absolute;
+    width: 3px;
+    height: 185px;
+    top: 35900%;
+    
+}
+#colorBrown1{
+    background-color: brown;
+    width: 136px;
+    height: 40px;
+    position: absolute;
+    left: 81%;
+    border: 3px solid black ;
+    top: 35855%;
+}
+#colorBrown2{
+    background-color: brown;
+    width: 140px;
+    height: 40px;
+    position: absolute;
+    left: 63%;
+    border: 3px solid black ;
+    top: 35855%;
+}
+
+#community-chest-name-row-1{
+    margin-top: 1080px;
+    margin-left: 850px;
+}
+#communityChest1 img{
+    height: 80px;
+    margin-left: 875px;
+    margin-top: 1300px;
+    z-index: 123px;
+}
+
+
+#Mediteranean-Avenue {
+    position: absolute;
+    top: 35955%;
+    left: 82%;
+}
+#Community-chest-row-1 {
+    left: 81%;
+}
+#Baltic-Avenue {
+    left: 72%;
+}
+#Income-Tax {
+    left: 63%;
+}
+#Reading-Railroad {
+    left: 54%;
+}
+#image1 img{
+    width: 100px;
+    top: 38300%;
+    left: 46.5%;
+    position: absolute;
+}
+#Oriental-Avenue {
+    left: 45%;
+}
+#Chance-row-1 {
+    left: 36%;
+}
+#Vermont-Avenue {
+    left: 27%;
+}
+#Fat-Connecticut-Avenue {
+    left: 18%;
+}
+
+#mediteranean-text {
+    position: absolute;
+    text-align: center;
+    margin-top: 42px;
+}
+#mediteranean-cost {
+    margin-top: 52px;
+}
+#baltic-text{
+    margin-left: -140px;
+    margin-top: 50px;
+}
+#baltic-cost {
+    margin-top: 66px;
+    margin-left: -150px;
+}
+#Income-Tax-Text {
+    text-align: center;
+    margin-left: -150px;
+}
+#Income-Tax-cost {
+    margin-top: 66px;
+    margin-left: -150px;
+}
+#Reading-Railroad-Text {
+    margin-left: -150px;
+}
+#Reading-Railroad-Cost {
+    margin-top: 85px;
+    margin-left: -150px;
+}
+#Oriental-Avenue-Text {
+    margin-left: -150px;
+}
+#light-blue-1 {
+    background-color: skyblue;
+    width: 140px;
+    height: 40px;
+    border: 3px solid black;
+    margin-left: -145px;
+}
+#Oriental-Avenue-Cost {
+    margin-left: -150px;
+    margin-top: 50px;
+}
+#chanceImg img{
+    background-color: black;
+    
+}
+#Vermont-Text{
+    margin-left: -890px;
+    margin-top: -3px;
+}
+#light-blue-2{
+    background-color: skyblue;
+    width: 140px;
+    height: 40px;
+    border: 3px solid black;
+    margin-left: -435px;
+    margin-top: -45px;
+
+}
+#Vermont-Cost{
+    margin-left: -890px;
+    margin-top: 50px;
+}
+#Connecticut-Text{
+    margin-left: -1173px;
+    margin-top: -110px;
+}
+#light-blue-3{
+    background-color: skyblue;
+    width: 135px;
+    height: 40px;
+    border: 3px solid black;
+    margin-left: -575px;
+    margin-top: -47px;
+}
+#Connecticut-Cost{
+    margin-left: -1173px;
+    margin-top: 30px;
+}
+#Jail-Square{
+    background-color: orange;
+    width: 120px;
+    height: 120px;
+    border: 3px solid black;
+    position: absolute;
+    top: 35800%;
+    left: 1.7%;
+
+}
+#Jail-Text-1{
+    position: absolute;
+    top: 36300%;
+    left: 7.1%;
+    transform: rotate(45deg);
+}
+#Jail-Text-2{
+
+    position: absolute;
+    top: 38600%;
+    left: 2%;
+    transform: rotate(45deg);
+}
+#Jail-Text-3{
+    position: absolute;
+    top: 37500%;
+    transform: rotate(90deg);
+    left: -1%;
+}
+#Jail-Visit{
+    position: absolute;
+    top: 40755%;
+    left: 2.5%;
+}
+ #epicDebuggerThatWillWork{
+    margin-left: -1430px;
+    margin-top: -103px; 
+} 
+#Jail-Image img{
+    top: 800px;
+    width: 60px;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 37000%;
+    left: 3.77%;
+} 
+
+
+
+#St-Charles-Place, #Electric-Company, #States-Avenue, #Virgina-Avenue, #Pennsylvania-Railroad, #St-James-Place, #Community-chest-row-2, #TennesseAvenue, #New-York-Avenue{
+    background-color: red;
+    transform: rotate(90deg);
+    position: absolute;
+    width: 3px;
+    height: 155px;
+    left: 4.5%;
+    top: 29400%; 
+}
+#St-Charles-Place-Text {
+    margin-left: 22px;
+    margin-top: 40px;
+}
+#pink1, #pink2, #pink3 { 
+    background-color: #e75480;
+    border: 1px solid black;
+    position: absolute;
+    top: 33200%;
+    left: 4.5%;
+    transform: rotate(90deg);
+    width: 115px;
+    height: 40px;
+}
+#St-Charles-Place-Cost {
+    margin-top: 10px;
+    margin-left: 40px;
+}
+#Electric-Company {
+    top: 25600%;
+}
+#Electric-Company-Text {
+    margin-left: 15px;
+}
+#Electric-Company-Cost {
+    margin-top: 60px;
+    margin-left: 30px;
+}
+#States-Avenue {
+    top: 21600%;
+}
+#States-Avenue-Text {
+    margin-top: 45px;
+    margin-left: 25px;
+}
+#States-Avenue-Cost {
+    margin-top: 30px;
+    margin-left: 30px;
+}
+#pink2 {
+    top: 25500%;   
+}
+#pink3 {
+    left: 4.7%;
+    width: 6.7%;
+    top: 21590%;
+}
+
+#Virgina-Avenue{
+    top: 17900%;
+}
+#Virgina-Avenue-Text {
+    margin-left: 30px;
+    margin-top: 40px;
+}
+#Virgina-Avenue-Cost {
+    margin-top: 35px;
+    margin-left: 30px;
+}
+#Pennsylvania-Railroad {
+    top: 14000%;
+    z-index: 198;
+}
+#Pennsylvania-Railroad-Text {
+    margin-left: 12px;
+}
+#Pennsylvania-Railroad-Cost {
+    margin-top: 70px;
+    margin-left: 30px;
+}
+#St-James-Place {
+    top: 10000%;
+}
+#St-James-Place-Text {
+    margin-top: 10px;
+    margin-left: 18px;
+}
+#St-James-Place-Cost {
+    margin-top: 15px;
+    margin-left: 30px;
+}
+#orange1, #orange2, #orange3 {
+    background-color: #ff8c00 ;
+    border: 3px solid black;
+    width: 117px;
+    height: 40px;    
+}
+#Community-chest-row-2 {
+    top: 6000%;
+    z-index: 153;
+}
+#Community-chest-row-2-text {
+    margin-left: 10px;
+}
+#community-chest-row-2-img img {
+   position: absolute;
+   top: 9100%;
+   transform: rotate(90deg);
+   left: -0px;
+   width: 5%;
+  /* height: 10s */
+}
+#TennesseAvenue {
+    top: 2000%;
+}
+#Tennesse-Avenue-Text {
+    margin-top: 50px;
+    margin-left: 20px;
+}
+#Tennesse-Avenue-Cost {
+    margin-top: 30px;
+    margin-left: 30px;
+}
+#New-York-Avenue-Text {
+    margin-left: -1800px;
+    margin-top: 50px;
+}
+#New-York-Avenue-Cost {
+    margin-top: 30px;
+}
+#orange3{
+    width: 130px;
+    margin-top: -47px;  
+    margin-left: -376px;
+}
+#orange2 {
+    margin-top: -45px;
+    margin-left: -240px;
+}
+
+#chanceImg img{
+    position: absolute;
+    width: 70px;
+    top: 89%;
+    left: 29.5%;
+}
+#chanceText{
+    position: absolute;
+    top: 36000%;
+    left: 29.6%;
+}
+#parkingImage img{
+    width: 70px;
+    transform: rotate(130deg);
+    position: absolute;
+    top: -3800%;
+    right: 93%;  
+}   
+#parking-Text-3{
+    position: absolute;
+    top: -3800%;
+    left: -0.7%;
+    transform: rotate(130deg);
+}
+#parking-Text-2{
+    position: absolute;
+    top: -1500%;
+    left: 6%;
+    transform: rotate(130deg);
+
+}
+#goToJailImage img{
+    width: 80px;
+    height: 80px;  
+    position: absolute;
+    left: 93%;
+    top: -4000%;
+    transform: rotate(-130deg); 
+} 
+#jail-text-1{
+    position: absolute;
+    top: -1600%;
+    left: 90%;
+    transform: rotate(-130deg);
+
+}
+#jail-text-2{
+    position: absolute;
+    top: -4300%;
+    left: 97%;
+    transform: rotate(-130deg);
+}
+
+#Kentucky-Avenue, #Chance-row-3, #Indiana-Avenue, #Illinois-Avenue, #B-O-Railroad, #Atlantic-Avenue, #Ventnor-Avenue, #Water-Works, #Marvin-Gardens {
+    background-color: red;
+    position: absolute;
+    width: 3px;
+    height: 153px;
+    top: -150px;
+    left: 18%;
+}
+#Kentucky-Avenue-Text, #Kentucky-Avenue-Cost, #Indiana-Avenue-Text, #Indiana-Avenue-Cost, #Illinois-Avenue-Text, #Illinois-Avenue-Cost, #Atlantic-Avenue-Text, #Atlantic-Avenue-Cost, #Vetnor-Avenue-Text, #Vetnor-Avenue-Cost, #Marvin-Gardens-Text, #Marvin-Gardens-Cost {
+    transform: rotate(180deg);
+    margin-top: 60px;
+    margin-left: -140px;
+}
+#Kentucky-Avenue-Cost, #Indiana-Avenue-Cost, #Illinois-Avenue-Cost, #Atlantic-Avenue-Cost, #Vetnor-Avenue-Cost, #Marvin-Gardens-Cost {
+    margin-top: -90px;
+}
+#red1, #red2, #red3 {
+    background-color: red;
+    height: 35px;
+    width: 8.4%;
+    position: absolute;
+    top: -1000%;
+    border: 3px solid black; 
+    margin-top: -10px;
+    left: 9.5%; 
+}
+
+#Chance-row-3 {
+    left: 27%;
+}
+#Indiana-Avenue{
+    left: 36%;
+}
+#red2 {
+    width: 8.8%;
+    left: 27%;
+}
+
+#Illinois-Avenue {
+    left: 45%;
+}
+#red3 {
+    width: 8.8%;
+    left: 36%;
+}
+
+#B-O-Railroad {
+    left: 54%;
+    z-index: 283;
+}
+
+#B-O-Railroad-Text {
+    transform: rotate(180deg);
+    margin-left: -140px;
+    margin-top: 10px;
+}
+#B-O-Railroad-Cost {
+    transform: rotate(180deg);
+    margin-left: -140px;
+    margin-top: 60px;
+}
+
+#Atlantic-Avenue {
+    left: 63%;
+}
+#yellow1, #yellow2, #yellow3 {
+    background-color: yellow;
+    width: 8.8%;
+    height: 35px;
+    position: absolute;
+    top: 0%;
+    margin-top: -40px;
+    border: 3px solid black;
+    left: 54%;
+}
+#Ventnor-Avenue {
+    left: 72%;
+}
+#yellow2 {
+    left: 63%;
+}
+#Water-Works {
+    left: 81%;
+    z-index: 172;
+}
+
+#Marvin-Gardens {
+    left: 89.7%;
+}
+#yellow3 {
+    width: 8.6%;
+    left: 81%;
+}
+#Pacific-Avenue, #North-Carolina-Avenue, #Community-chest-row-4, #Pennsylvania-Avenue, #Short-Line, #Chance-row-4, #Park-Place, #Luxury-Tax, #Boardwalk {
+    background-color: red;
+    width: 3px;
+    height: 165px;
+    position: absolute;
+    top: 10%;
+    margin-top: 35px;
+    left: 94.8%;
+    transform: rotate(90deg);
+}
+#Pacific-Avenue-Text, #North-Carolina-Avenue-Text {
+    transform: rotate(180deg);
+    margin-top: 70px;
+    margin-left: -110px;
+}
+#Pacific-Avenue-Cost, #North-Carolina-Avenue-Cost {
+    transform: rotate(180deg);
+    margin-top: -90px;
+    margin-left: -100px;
+}
+#green1, #green2, #green3 {
+    background-color: green;
+    height: 35px;
+    width: 7%;
+    position: absolute;
+    top: 10%;
+    margin-top: 38px;
+    left: 87.5%;
+    transform: rotate(90deg);
+    border: 3px solid black;
+}
+#North-Carolina-Avenue {
+    margin-top: 160px;
+}
+#North-Carolina-Avenue-Text {
+    margin-top: 50px;
+}
+#green2 {
+    width: 7.55%;
+    margin-top: 160px;
+    margin-left: -3px;
+}   
+#Community-chest-row-4 {
+    margin-top: 290px;
+    z-index: 98;
+}
+#Community-Chest-row-4-Text {
+    transform: rotate(180deg);
+    margin-top: 110px;
+    margin-left: -130px;
+}
+#Community-chest-row-4-Image img {
+    width: 100px;
+    position: absolute;
+    left: -3800%;
+    transform: rotate(180deg);
+}
+
+#Pennsylvania-Avenue {
+    margin-top: 415px;
+}
+#Pennsylvania-Avenue-Text {
+    transform: rotate(180deg);
+    margin-top: 75px;
+    margin-left: -120px;
+}
+#Pennsylvania-Avenue-Cost {
+    transform: rotate(180deg);
+    margin-top: -120px;
+    margin-left: -120px;
+}
+#green3 {
+    width: 7.5%;
+    margin-top: 415px;
+    margin-left: -3px;
+}
+
+#Short-Line {
+    margin-top: 533px;
+    z-index: 163;
+}
+#Short-Line-Text {
+    transform: rotate(180deg);
+    margin-left: -120px;
+    margin-top: 110px;
+}
+#Short-Line-Cost {
+    transform: rotate(180deg);
+    margin-top: -140px;
+    margin-left: -110px;
+}
+
+#Chance-row-4 {
+    margin-top: 642px;
+}
+#Chance-row-4-text {
+    transform: rotate(180deg);
+    margin-left: -110px;
+    margin-top: 130px;
+}
+#Chance-row-4-img img {
+    width: 60px;
+    transform: rotate(180deg);
+    position: absolute;
+    margin-left: -90px;
+}
+#Park-Place {
+    margin-top: 750px;
+}
+#Park-Place-Text {
+    transform: rotate(180deg);
+    margin-left: -110px;
+    margin-top: 75px;
+}
+#Park-Place-Cost {
+    transform: rotate(180deg);
+    margin-left: -110px;
+    margin-top: -120px;
+}
+#dark-blue-1, #dark-blue-2 {
+    background-color: darkblue;
+    height: 35px;
+    width: 6.4%;
+    position: absolute;
+    margin-top: 759px;
+    left: 87.8%;
+    border: 3px solid black;
+    transform: rotate(90deg);
+}
+#Luxury-Tax {
+    margin-top: 870px;
+}
+#Luxury-Tax-Text {
+    transform: rotate(180deg);
+    margin-left: -120px;
+    margin-top: 110px;
+}
+#Luxury-Tax-Cost {
+    transform: rotate(180deg);
+    margin-top: -150px; 
+    margin-left: -110px;
+}
+#Luxury-Tax-image img{
+    transform: rotate(180deg);
+    width: 80px;
+    margin-left: -120px;
+}
+#Boardwalk {
+    margin-top: 994px;
+}
+#Boardwalk-text {
+    transform: rotate(180deg);
+    margin-left: -120px;
+    margin-top: 100px;
+}
+#Boardwalk-cost {
+    transform: rotate(180deg);
+    margin-top: -110px;
+    margin-left: -110px;
+}
+#dark-blue-2 {
+    width: 7.5%;
+    margin-top: 994px;
+    margin-left: -10px
+}
+#ChanceImg img{
+    width: 50px;
+    position: absolute;
+    transform: rotate(180deg);  
+    left: 21%;
+    top: -4300%;
+}
+#ChanceText1{
+    left: 20.7%;
+    top: -650%;
+    transform: rotate(180deg);
+    position: absolute;
+}
+#Water-Works-Image img{
+    width: 70px;
+    position: absolute;
+    left: 74.5%;
+    transform: rotate(180deg);
+    top: -3700%;
+}
+#Water-Works-Text{
+    transform: rotate(180deg);
+    position: absolute;
+    left: 75%;
+    top: -1350%
+}
+#Water-Works-Cost{
+    transform: rotate(180deg);
+    position: absolute;
+    left: 75.3%;
+    top: -4700%;
+}
+#image2 img{
+    transform: rotate(90deg);
+    width: 100px;
+    position: absolute;
+    left: 1%;
+    top: 17500%;
+}
+#image3 img{
+    transform: rotate(180deg);
+    width: 100px;
+    position: absolute;
+    left: 46.5%;
+    top: -3200%;
+}
+#image4 img{
+    transform: rotate(270deg);
+    width: 100px;
+    position: absolute;
+    left: 92.5%;
+    top: 17500%;
+}
+#Income-Tax-Square{
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    border: 4px solid white;
+    transform: rotate(45deg);
+    margin-left: -80px;
+    margin-top: -70px;
+}
+#rollDice{
+    width: 100px;
+    height: 100px;
+    margin-left: -1800px;
+    margin-top: -1000px;
+    border: 5px solid red;
+    color: rgb(12, 253, 4);
+    background-color: black;
+}
+/* #rectangle {
+    height: 100px;
+    width: 100px; 
+    border: 5px solid orange;
+} */
+/*
+    it no move lmao  
+    Where is it
+    The ring is in the luxury tax square right ubove boardwalk checl [hone i send imagekk wait //             are we putting the community chest and chance image?? \\
+    WWWWWWWWWWWWWWWWWW  yea i did it it was easy srry for giving you the harder one lmao I didn't realize it didn't have an image ? the word or the image? 
+*/ 
