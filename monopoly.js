@@ -156,7 +156,7 @@ function distributeGoMoney(player) {
 function moveToken(player) {
     const colors = ["orange", "red", 'yellow', "blue", "green", "purple", "brown", "black"]
     for(let i=0; i<pieceArr.length; i++) {
-        if(pieceArr[i].src === ("file:///C:/Monopoly/" + monopolyPieces[playerDict[player]])) {
+        if(pieceArr[i].src === (monopolyPieces[playerDict[player]])) {
             document.querySelector("#" + board[playerStats[player]["currPosition"]]).appendChild(pieceArr[i]);
             pieceArr[i].style.top = "50%";
             pieceArr[i].style.left = "-3900%";
