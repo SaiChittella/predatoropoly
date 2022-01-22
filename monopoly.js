@@ -1,4 +1,5 @@
 //fake// the array of community and chance cards
+// helloo Session chat isn't working for some reas 
 
 chanceCards = [
     "Advance To Boardwalk", "Advance to Go (Collect 200)", "Advance to Illinois Avenue. If you pass Go, collect $200", 
@@ -119,6 +120,7 @@ function diceRoll() {
         determineWhoGoesFirst();
         firstPlay = false;
     } else {    
+        alert("DiceRolll")
         let sum = sumDice();
         if(count === playerCount) {
             count = 0;
@@ -129,7 +131,9 @@ function diceRoll() {
             putOnGo();
             distributeGoMoney(playerOrder[count]);
         }
+
         playerStats[playerOrder[count]]["currPosition"] += sum;
+
 
         alert(playerOrder[count] + ' rolled: ' + sum);
         move(playerOrder[count]);
@@ -165,28 +169,68 @@ function moveToken(player) {
     if(position === "Chance-row-1" || position === "Chance-row-3" || position === "Chance-row-4") {
         displayChance();
         nonBuying = true;
-    } else if(position === "Community-chest-row-1" || position === "Community-chest-row-2" || position === "Community-chest-row-4") {
+    } else if(position === "Community-chest-row-1" || position === "Community-Chest-row-2" || position === "Community-chest-row-4") {
         displayCommunityChest();
         nonBuying = true;
     }
     else if(position == "Reading-Railroad" || position === "Pennsylvania-Railroad" || position === "B-O-Railroad" || position === "Short-Line" || position === 'Income-Tax' || position === "Luxury-Tax" || position === "Jail-Visit") {
+        // taxes 
+        if(position === "Income-Tax" || position === 'Luxury-Tax') {
+            payTaxes(player);
+        }
         nonBuying = true;
     }
 
-    if(!checkIfOwned(player) && !nonBuying) {
-        displayOptionsToBuy(player);
-    } else {
-        // calculateCost();
-        // canPayRent();
-        // payRent();
+    if(!nonBuying) {
+        if(!checkIfOwned(player)) {
+            displayOptionsToBuy(player);
+        } else{
+            // calculateCost();
+            // canPayRent();
+            // payRent();
+        }
     }
 
+    displayPersonStats(player); 
+}
+
+function displayPersonStats(player) {
+    let statsBox = document.querySelector("#personStats");
+    statsBox.style.border = "3px solid black";
+    statsBox.style.width = "800px";
+    statsBox.style.height = "auto";
+    statsBox.style.position = "absolute";
+    statsBox.style.top = "100%";
+    statsBox.style.color = "black";
+    for(let i=0; i<playerOrder.length; i++) {
+        statsBox.innerHTML  += "Player: " + playerOrder[i] + " {Money: " + playerStats[playerOrder[i]]["money"] + ", Properties Owned: [" + playerStats[playerOrder[i]]['properties'] + "], Current Position: " + board[playerStats[playerOrder[i]]["currPosition"]] + "} <br />";  
+    }
+}
+
+function payTaxes(player) {
+    if(!canAfford(playerStats[player]["money"], player)) {
+        // displayOptionsToSell();
+        // displayLoss();
+    }
+    playerStats[player]["money"] -= avenueStats[board[playerStats[player]['currPosition']]];
+    alert("You have paid " + avenueStats[board[playerStats[player]['currPosition']]] + "!");
+}
+
+
+function canAfford(money, player) {
+    if(money > avenueStats[board[playerStats[player]["currPosition"]]]["price"]) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function displayCommunityChest () {
     let randomCard = Math.floor(Math.random() * communityChestCards.length) + 1;
     alert(communityChestCard[randomCard]);
     communityChestCard.splice(randomCard, 1);
+
+    // enforce
 }
 function displayChance() {
     let randomCard = Math.floor(Math.random() * chanceCards.length) + 1;
@@ -233,8 +277,9 @@ avenueColor = {
     "Boardwalk": "darkblue"
 }
 
+let rectangle = document.querySelector("#rectangle");
+
 function displayOptionsToBuy(player) {
-    let rectangle = document.querySelector("#rectangle");
     let color = document.querySelector("#color");
     let stats = document.querySelector("#stats");
     let moreStats = document.querySelector("#moreStats");
@@ -246,7 +291,7 @@ function displayOptionsToBuy(player) {
     rectangle.style.left = "50%";
     rectangle.style.top = "45%";
     rectangle.style.border = "2px solid orange";
-    rectangle.style.backgroundColor = "white";
+    rectangle.style.backgroundColor = "black";
     rectangle.style.opacity = 1;
 
     color.style.backgroundColor = avenueColor[avenue];
@@ -254,13 +299,13 @@ function displayOptionsToBuy(player) {
     color.style.width = "400px";
     color.style.position = "absolute";
     color.style.top =  "0%";
-    color.style.color = "black";
+    color.style.color = "white";
     color.innerHTML += avenue;
     color.style.fontSize = "20px";
     rectangle.appendChild(color);
     
 
-    stats.style.color = "black";
+    stats.style.color = "white";
     stats.style.position = "absolute";
     stats.style.top = "20%";
     
@@ -271,7 +316,7 @@ function displayOptionsToBuy(player) {
 
     rectangle.appendChild(stats);
 
-    moreStats.style.color = "black";
+    moreStats.style.color = "white";
     moreStats.style.position = "absolute";
     moreStats.style.marginTop = "100px";
     moreStats.style.left = "25%";
@@ -292,10 +337,74 @@ function displayOptionsToBuy(player) {
     rectangle.appendChild(moreStats);   
 
     let btn = document.createElement("button");
+    btn.id = "buyButton";
     btn.style.height = '100px';
-    btn.style.width = "100px";
-
+    btn.style.width = "150px";
+    btn.style.border = '3px solid white';
+    btn.innerHTML = "BUY";
+    btn.style.position = "absolute";
+    btn.style.top = "70%";
+    btn.style.left = "10%";
+    btn.style.backgroundColor = "green";
+    btn.style.color = "black";
     rectangle.appendChild(btn);
+
+    let no = document.createElement("button");
+    no.id = "noButton";
+    no.style.height = '100px';
+    no.style.width = "150px";
+    no.style.border = '3px solid white';
+    no.innerHTML = "NO";
+    no.style.position = "absolute";
+    no.style.top = "70%";
+    no.style.left = "50%";
+    no.style.backgroundColor = "red";
+    no.style.color = "black";
+    rectangle.appendChild(no);
+
+
+    document.querySelector("#buyButton").addEventListener("click", buy);
+    document.querySelector("#noButton").addEventListener("click", noBuy);
+}
+
+
+function buy() {
+    let numberHouses = prompt("How many houses do you wish to put. If you want a hotel, type 'hotel'");
+    if(parseInt(numberHouses) > 4) {
+        alert("Try again!")
+    } else {
+        let player = playerOrder[playerCount - 1];
+
+        if(affordable(player, playerStats[player]["money"], board[playerStats[player]["currPosition"]], numberHouses)) { 
+            alert("Bought with " + numberHouses + " houses/hotels");
+            playerStats[player]["properties"].push(board[playerStats[player]["currPosition"]]);
+            alert("Owned: " + playerStats[player]["properties"])
+        } else {
+            alert("Not enough money loser");
+        }
+    }
+}
+
+function affordable(player, money, avenue, numberOfHouses) { 
+    if(money === 0) {
+        // youLose();
+    }
+    if(numberOfHouses.toLowerCase() === "hotel") {
+        if(money > (avenueStats[avenue]["pricePerHouse"] * 4) + avenueStats[avenue]["pricePerHouse"]) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    if (money > ((avenueStats[avenue]["pricePerHouse"]) * parseInt(numberOfHouses))) {
+        return true;
+    } else {
+        return false;
+    }  
+}
+
+function noBuy() {
+    rectangle.remove();
 }
 
 function move(player) { 
@@ -418,7 +527,9 @@ avenueStats = {
     "Park-Place": {'price': 350, 'pricePerHouse': 200, 'rent': {'0': 35, '1': 175, '2': 500, '3': 50, '4': 1100, 'hotel': 1300}},
     "Boardwalk": {'price': 400, 'pricePerHouse': 200, 'rent': {'0': 50, '1': 200, '2': 600, '3': 1400, '4': 1700, 'hotel': 2000}},
     "Railroads": {'price': 200, 'rent': {'1': 25, '2': 50, '3': 100, '4': 200}},
-    "Utilities": {"price": 150, 'rent': {'1': 4, '2': 10}}
+    "Utilities": {"price": 150, 'rent': {'1': 4, '2': 10}},
+    "Income-Tax": {'price': 200},
+    "Luxury-Tax": {'price': 100}
 }
 
 document.querySelector("#rollDice").addEventListener("click", diceRoll);
@@ -436,50 +547,8 @@ function checkPlace() {
 
 // alert(communityChestCards[Math.floor(Math.random() * communityChestCards.length)]);
 
-/*i was baout to do a lot of work but servers arent sharedloser on display ------------->
-    1) Find out every single community chest and chance cards and store then into an array, that will get by random, and when chosen will remove it from the array. When we run out of cards, we will "shuffle" 
-    and put them back into the array. How long do you wish to play for. (DONE)
-    
-    2) Get the pieces. (DONE)
-
-    3) Get the player count. And then ask them what piece they want to play as and put that on go. Ask them their names and store in hashmap. (DONE)
-
-    4) Distribute the starting amount of money. (M1500).  (DONE)
-    
-    5) To get dice, and stimulate a dice roll. (DONE)
-
-    6) We will roll the dice, whoever gets the highest goes first. (DONE)
-
-    7) We will have to keep track of turns, (in a hashmap).(DONE)
-    
-    8) We will have two dice, and pick random numbers between 1 and 6, and then add them together, and go that far, and put pieces on board. (DONE) 
-         (a) -> move the piece (DONE)
-    scam---|
-           |
-           v
-    9) (Special Case) If there is a double (where both numbners on the dice is the same) you roll again, and if this occurs three times in a row, you get sent to jail. (DONE)
-    
-    10) If you hit go to jail, you go straight to jail and don't collect 200 dollars. 
-    
-    11) when passing go, collect 200 dollars and add it to your broke bank. (DONE)
-    
-    12) If you about to go bankrupt, you must display options of what places to sell.
-    
-    13) If you go bankrupt, YOU LOSE LOSERRR. TAKE THAT L
-    
-    14) if you land on someone elses property, you pay their money. Following the house and hotel rules.
-    
-    15) If you purchase a land, ask the user how many houses and if so, a hotel, they want on their land, and charge them accordingly.
-    
-    
-    16) If you get put in jail, you can either pay M50, use Get Out of Jail, or wait three turns.
-
-    32 houses
-    12 hotels
-*/
-/*
-    BUGS TO REMEMBER!!!!!!!!!!!!!!!!
-    1) B&O Railroad is wrong FIX IT
-    2) Chance and Community Chests images need to be on the rectangles FIX ITTTT
-    3) Move Monopoly man down FIX ITTT
-*/
+// dude i have an idea what if you just put the image files into monopoly directly that way the thing is here 
+// yea I did that. Its in this monopoly file. But the problem is, when Im checking the src of the image, the src of the image is from the root of my computer, so it goes my computer and then the monopoly file and inside the 
+// monopoly file the images. 
+// oh kk lmao did the github not work? let me re try ecepty cvan u repost i think there is somethjing wrong with that one repost what? the server? or the live share? just the b oard is messed up when load
+// yeeeeeeeeeeeeeaaaaaaaaaa         kkkkkkkkkkkkkkkkkkkkkk oh you mean on github? kkkkkkk

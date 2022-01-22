@@ -1,0 +1,57 @@
+These are all the Bugs to Fix:
+    1) On Second Row, the divs are not on the "left" side, so special case required to put the piece below instead of above.
+    2) currPosition is sometimes bugged for certain avenues, meaning that the "board" array names at times don't match with the div id.
+    3) Player Stats keeps on appending, we need to delete previous and then appned.
+    4) Chance and Community Chests need to be enforced.
+    5) Mortgage Card keeps appending. Delete and then display.
+    6) Flip piece as it traverses the board.
+    7) Income and Luxury Tax don't collect money correctly instead they collect the object.
+    
+
+1) Display where starting positoin, and then sum, and then the ending position to ensure correct landing.
+
+
+    1) Find out every single community chest and chance cards and store then into an array, that will get by random, and when chosen will remove it from the array. When we run out of cards, we will "shuffle" 
+    and put them back into the array. How long do you wish to play for. (DONE)
+    
+    2) Get the pieces. (DONE)
+
+    3) Get the player count. And then ask them what piece they want to play as and put that on go. Ask them their names and store in hashmap. (DONE)
+
+    4) Distribute the starting amount of money. (M1500).  (DONE)
+    
+    5) To get dice, and stimulate a dice roll. (DONE)
+
+    6) We will roll the dice, whoever gets the highest goes first. (DONE)
+
+    7) We will have to keep track of turns, (in a hashmap).(DONE)
+    
+    8) We will have two dice, and pick random numbers between 1 and 6, and then add them together, and go that far, and put pieces on board. (DONE) 
+         (a) -> move the piece (DONE)
+    scam---|
+           |
+           v
+    9) (Special Case) If there is a double (where both numbners on the dice is the same) you roll again, and if this occurs three times in a row, you get sent to jail. (DONE)
+    
+    10) If you hit go to jail, you go straight to jail and don't collect 200 dollars. 
+    
+    11) when passing go, collect 200 dollars and add it to your broke bank. (DONE)
+    
+    12) If you about to go bankrupt, you must display options of what places to sell.
+    
+    13) If you go bankrupt, YOU LOSE LOSERRR. TAKE THAT L
+    
+    14) if you land on someone elses property, you pay their money. Following the house and hotel rules.
+    
+    15) If you purchase a land, ask the user how many houses and if so, a hotel, they want on their land, and charge them accordingly.
+    
+    
+    16) If you get put in jail, you can either pay M50, use Get Out of Jail, or wait three turns.
+
+    32 houses
+    12 hotels
+
+    BUGS TO REMEMBER!!!!!!!!!!!!!!!!
+    1) B&O Railroad is wrong FIX IT
+    2) Chance and Community Chests images need to be on the rectangles FIX ITTTT
+    3) Move Monopoly man down FIX ITTT
