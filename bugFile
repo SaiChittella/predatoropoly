@@ -33,17 +33,17 @@ These are all the Bugs to Fix:
            v
     9) (Special Case) If there is a double (where both numbners on the dice is the same) you roll again, and if this occurs three times in a row, you get sent to jail. (DONE)
     
-    10) If you hit go to jail, you go straight to jail and don't collect 200 dollars. 
+    10) If you hit go to jail, you go straight to jail and don't collect 200 dollars. (DONE)
     
     11) when passing go, collect 200 dollars and add it to your broke bank. (DONE)
     
-    12) If you about to go bankrupt, you must display options of what places to sell.
+    12) If you about to go bankrupt, you must display options of what places to sell. 
     
     13) If you go bankrupt, YOU LOSE LOSERRR. TAKE THAT L
     
-    14) if you land on someone elses property, you pay their money. Following the house and hotel rules.
+    14) if you land on someone elses property, you pay their money. Following the house and hotel rules. 
     
-    15) If you purchase a land, ask the user how many houses and if so, a hotel, they want on their land, and charge them accordingly.
+    15) If you purchase a land, ask the user how many houses and if so, a hotel, they want on their land, and charge them accordingly. (DONE)
     
     
     16) If you get put in jail, you can either pay M50, use Get Out of Jail, or wait three turns.

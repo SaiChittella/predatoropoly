@@ -18,14 +18,14 @@ communityChestCards = [
 
 
 monopolyPieces = {
-    "battleship": "MonopolyPieces/battleship.png",
-    "boot": "MonopolyPieces/boot.png",
-    "car": "MonopolyPieces/car.png",
-    "cat": "MonopolyPieces/cat.png",
-    "dog": "MonopolyPieces/dog.png",
-    "hat": "MonopolyPieces/hat.png",
-    "thimble": "MonopolyPieces/thimble.png",
-    "wheelbarrow": "MonopolyPieces/wheelbarrow.png",
+    "battleship": "battleship.png",
+    "boot": "boot.png",
+    "car": "car.png",
+    "cat": "cat.png",
+    "dog": "dog.png",
+    "hat": "hat.png",
+    "thimble": "thimble.png",
+    "wheelbarrow": "wheelbarrow.png",
 }
 
 const piecesToChooseFrom = ["battleship", "boot", "car", "cat", "dog", "hat", "thimble", "wheelbarrow"]
@@ -487,7 +487,7 @@ function putPiecesOnBoard() {
         let  img = document.createElement("img");
         img.src = monopolyPieces[playerDict[playerStatsArr[i]]];
         img.style.height = "40px";
-        img.style.wdith = "40px";
+        img.style.wdith = "40px"; 
         img.style.position = "absolute";
         img.style.top = movement + "%"; 
         img.style.left = movementLeft + "%";
@@ -546,9 +546,3 @@ function checkPlace() {
 // alert(monopolyPieces[playerDict["Sai"]]);
 
 // alert(communityChestCards[Math.floor(Math.random() * communityChestCards.length)]);
-
-// dude i have an idea what if you just put the image files into monopoly directly that way the thing is here 
-// yea I did that. Its in this monopoly file. But the problem is, when Im checking the src of the image, the src of the image is from the root of my computer, so it goes my computer and then the monopoly file and inside the 
-// monopoly file the images. 
-// oh kk lmao did the github not work? let me re try ecepty cvan u repost i think there is somethjing wrong with that one repost what? the server? or the live share? just the b oard is messed up when load
-// yeeeeeeeeeeeeeaaaaaaaaaa         kkkkkkkkkkkkkkkkkkkkkk oh you mean on github? kkkkkkk
