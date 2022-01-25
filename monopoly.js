@@ -17,6 +17,13 @@ communityChestCards = [
     "Receive $25 consultancy fee", "You are assessed for street repair. $40 per house. $115 per hotel", "You have won second prize in a beauty contest. Collect $10", "You inherit $100"
 ]
 
+const board = [
+    "Go", "Mediteranean-Avenue", "communityChest1", "Baltic-Avenue", "Income-Tax", "Reading-Railroad", "Oriental-Avenue", "Chance-row-1", "Vermont-Avenue", 
+    "Fat-Connecticut-Avenue", "Jail-Visit", "St-Charles-Place", "Electric-Company", "States-Avenue", "Virgina-Avenue", "Pennsylvania-Railroad", "St-James-Place", "Community-chest-row-2",
+    "TennesseAvenue", "New-York-Avenue", "Free-Parking", "Kentucky-Avenue", "Chance-row-3", "Indiana-Avenue", "Illinois-Avenue", "B-O-Railroad", "Atlantic-Avenue",
+    "Ventnor-Avenue", "Water-Works", "Marvin-Gardens", "Go-To-Jail", "Pacific-Avenue", "North-Carolina-Avenue", "Community-chest-row-4", "Pennsylvania-Avenue", "Short-Line", 
+    "Chance-row-4", "Park-Place", "Luxury-Tax", "Boardwalk"
+]
 chanceAndCommunityChestCardEnforcement = {
     'Advance To Boardwalk': {'currPosition': (board.length - 1)},
     'Adance to Go (Collect $200)': {'currPosition': 0, 'money': 200},
@@ -89,13 +96,6 @@ avenueStats = {
 
 // put the pieces on the board, and display the amount of money each person has on the bottom. 
 
-const board = [
-    "Go", "Mediteranean-Avenue", "communityChest1", "Baltic-Avenue", "Income-Tax", "Reading-Railroad", "Oriental-Avenue", "Chance-row-1", "Vermont-Avenue", 
-    "Fat-Connecticut-Avenue", "Jail-Visit", "St-Charles-Place", "Electric-Company", "States-Avenue", "Virgina-Avenue", "Pennsylvania-Railroad", "St-James-Place", "Community-chest-row-2",
-    "TennesseAvenue", "New-York-Avenue", "Free-Parking", "Kentucky-Avenue", "Chance-row-3", "Indiana-Avenue", "Illinois-Avenue", "B-O-Railroad", "Atlantic-Avenue",
-    "Ventnor-Avenue", "Water-Works", "Marvin-Gardens", "Go-To-Jail", "Pacific-Avenue", "North-Carolina-Avenue", "Community-chest-row-4", "Pennsylvania-Avenue", "Short-Line", 
-    "Chance-row-4", "Park-Place", "Luxury-Tax", "Boardwalk"
-]
 const piecesToChooseFrom = ["battleship", "boot", "car", "cat", "dog", "hat", "thimble", "wheelbarrow"]
 
 
