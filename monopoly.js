@@ -1,5 +1,7 @@
 //fake// the array of community and chance cards
 // helloo Session chat isn't working for some reas 
+/*join call I
+ did Can you not hear me? nice asmr bro lmaos hello?? ????? hello lmao my dad is vaccumming idk if you can hear me anymore */
 
 chanceCards = [
     "Advance To Boardwalk", "Advance to Go (Collect 200)", "Advance to Illinois Avenue. If you pass Go, collect $200", 
@@ -437,10 +439,10 @@ function payTaxes(player) {
     }
 }
 
-displayOptionsToSell(player) {
+function displayOptionsToSell(player) { 
     if(playerStats[player]['properties'].length === 0) {
         return false;
-    }
+    } 
 
     alert("YOU ARE SOON GOING TO GO BANKRUPT, YOU HAVE THESE OPTIONS TO SELL NOTICE IF YOU SELL A PROPERTY, ALL THE HOUSES GOOOO WITH ITTT: ");
     let options = ''
@@ -487,12 +489,20 @@ function displayCommunityChest () {
     communityChestCards.splice(randomCard, 1);
 
     // enforce
+    enforcement();
 
 }
 function displayChance() {
     let randomCard = Math.floor(Math.random() * chanceCards.length) + 1;
     alert(chanceCards[randomCard]);
     chanceCards.splice(randomCard, 1);
+
+    // enforce
+    enforcement();
+}
+
+function enforecement() {
+    
 }
 
 function checkIfOwned(player) {
