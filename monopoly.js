@@ -3,8 +3,8 @@
 
 chanceCards = [
     "Advance To Boardwalk", "Advance to Go (Collect 200)", "Advance to Illinois Avenue. If you pass Go, collect $200", 
-    "Advance to St. Charles Place. If you pass Go, collect $200", "Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay wonder twice the rental to which they are otherwise entitled",
-    "Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.", 
+    "Advance to St. Charles Place. If you pass Go, collect $200", "Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled",
+    "Advance piece to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.", 
     "Bank pays you dividend of $50", "Get Out of Jail Free", "Go Back 3 Spaces", "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200", "Make general repairs on all your property. For each house pay $25. For each hotel pay $100",
     "Speeding fine $15", "Take a trip to Reading Railroad. If you pass Go, collect $200", "You have been elected Chairman of the Board. Pay each player $50", "Your building loan matures. Collect $150"
 ]
@@ -15,7 +15,35 @@ communityChestCards = [
     "Receive $25 consultancy fee", "You are assessed for street repair. $40 per house. $115 per hotel", "You have won second prize in a beauty contest. Collect $10", "You inherit $100"
 ]
 
-
+chanceAndCommunityChestCardEnforcement = {
+    'Advance To Boardwalk': {'currPosition': (board.length - 1)},
+    'Adance to Go (Collect $200)': {'currPosition': 0, 'money': 200},
+    'Advance To Illinois Avenue. If you pass Go, collect $200': {'currPosition': 24, 'money': 200},
+    'Advance to St. Charles Place. If you pass Go, collect $200': {'currPosition': 11, 'money': 200},
+    'Advance to the nearest Railroad. If unowned, you buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled': {'currPosition': [5, 15, 25, 35]},
+    'Advance piece to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.': {'currPosition': [12, 28]},
+    'Bank pays you divident of $50': {'money': 50},
+    'Get Out Of Jail Free': {'getOutOfJailFree': true},
+    'Go Back Three Spaces': {'curPosition': -3},
+    'Go To Jail. Go directly to Jail, do not pass Go, do not collect $200': {'currPosition': 10},
+    'Make general repairs on all your property. For each house pay $25. For each hotel pay $100': 'specialCase',
+    'Speeding fine $15': {'money': -15},
+    'Take a trip to Reading Railroad. If you pass Go, collect $200': {'currPosition': 5},
+    'You have been elected Chairman of the Board. Pay each player $50': {'money': -50},
+    'Your building loan matures. Collect $150': {'money': 150},
+    'Bank error in your favor. Collect $200': {'money': 200},
+    'From sale of stock you get $50': {'money': 50},
+    'Holiday fund matures. Receive $100': {'money': 100},
+    'Income tax refund': {'money': 20},
+    'It is your birthday. Collect $10 from every player': {'money': 10},
+    'Life insurance matures': {'money': 100},
+    'Pay hospital fees of $100': {'money': -100},
+    'Pay school fees of $50': {'money': -50},
+    'Receive $25 consultancy fee': {'money': 25},
+    'You are assessed for street repair': 'specialCase2',
+    'You have won second prize in a beauty contest. Collect $10': {'money': 10},
+    'You inherit $100': {'money': 100},
+}
 
 monopolyPieces = {
     "battleship": "battleship.png",
@@ -28,12 +56,54 @@ monopolyPieces = {
     "wheelbarrow": "wheelbarrow.png",
 }
 
+avenueStats = {
+    "Mediteranean-Avenue": {"price": 60, "pricePerHouse": 50, "rent":{'0': 2, '1': 10, '2': 30, '3': 90, '4': 160, 'hotel': 250}},
+    "Baltic-Avenue": {"price": 60, "pricePerHouse": 50, "rent": {'0': 4, '1':20, '2': 60, '3': 180, '4': 320, 'hotel': 450}},
+    "Oriental-Avenue": {"price": 100, "pricePerHouse": 50, "rent": {'0': 6, '1': 30, '2': 90, '3': 270, '4': 400, 'hotel': 550}},
+    "Vermont-Avenue": {'price': 100, 'pricePerHouse': 50, 'rent': {'0': 6, '1': 30, '2': 90, '3': 270, '4': 400, 'hotel': 550}},
+    "Fat-Connecticut-Avenue": {'price': 120, 'pricePerHouse': 50, 'rent': {'0': 8, '1': 40, '2': 100, '3': 300, '4': 450, 'hotel': 600}},
+    "St-Charles-Place": {'price': 140, 'pricePerHouse': 100, 'rent': {'0': 10, '1': 50, '2': 150, '3': 450, '4': 625, 'hotel': 750}},
+    "States-Avenue": {'price': 140, 'pricePerHouse': 100, 'rent': {'0': 10, '1': 50, '2': 150, '3': 450, '4': 625, 'hotel': 750}},
+    "Virgina-Avenue": {'price': 160, 'pricePerHouse': 100, 'rent': {'0': 12, '1': 60, '2': 180, '3': 500, '4': 700, 'hotel': 900}},
+    "St-James-Place": {'price': 180, 'pricePerHouse': 100, 'rent': {'0': 14, '1': 70, '2': 200, '3': 550, '4': 750, 'hotel': 950}},
+    "TennesseAvenue": {'price': 180, 'pricePerHouse': 100, 'rent': {'0': 14, '1': 70, '2': 200, '3': 550, '4': 750, 'hotel': 950}},
+    "New-York-Avenue": {'price': 200, 'pricePerHouse': 100, 'rent': {'0': 16, '1': 80, '2': 220, '3': 600, '4': 800, 'hotel': 1000}},
+    "Kentucky-Avenue": {'price': 220, 'pricePerHouse': 150, 'rent': {'0': 18, '1': 90, '2': 250, '3': 700, '4': 875, 'hotel': 1050}},
+    "Indiana-Avenue": {'price': 220, 'pricePerHouse': 150, 'rent': {'0': 18, '1': 90, '2': 250, '3': 700, '4': 875, 'hotel': 1050}},
+    "Illinois-Avenue": {'price': 240, 'pricePerHouse': 150, 'rent': {'0': 20, '1': 100, '2': 300, '3': 750, '4': 925, 'hotel': 1100}},
+    "Atlantic-Avenue": {'price': 260, 'pricePerHouse': 150, 'rent': {'0': 22, '1': 110, '2': 330, '3': 800, '4': 975, 'hotel': 1150}},
+    "Ventnor-Avenue": {'price': 260, 'pricePerHouse': 150, 'rent': {'0': 22, '1': 110, '2': 330, '3': 800, '4': 975, 'hotel': 1150}},
+    "Marvin-Gardens": {'price': 280, 'pricePerHouse': 150, 'rent': {'0': 24, '1': 120, '2': 360, '3': 850, '4': 1025, 'hotel': 1200}},
+    "Pacific-Avenue": {'price': 300, 'pricePerHouse': 200, 'rent': {'0': 26, '1': 130, '2': 390, '3': 900, '4': 1100, 'hotel': 1275}},
+    "North-Carolina-Avenue": {'price': 300, 'pricePerHouse': 200, 'rent': {'0': 26, '1': 130, '2': 390, '3': 900, '4': 1100, 'hotel': 1275}},
+    "Pennsylvania-Avenue": {'price': 320, 'pricePerHouse': 200, 'rent': {'0': 28, '1': 150, '2': 450, '3': 1000, '4': 1200, 'hotel': 1400}},
+    "Park-Place": {'price': 350, 'pricePerHouse': 200, 'rent': {'0': 35, '1': 175, '2': 500, '3': 50, '4': 1100, 'hotel': 1300}},
+    "Boardwalk": {'price': 400, 'pricePerHouse': 200, 'rent': {'0': 50, '1': 200, '2': 600, '3': 1400, '4': 1700, 'hotel': 2000}},
+    "Railroads": {'price': 200, 'rent': {'1': 25, '2': 50, '3': 100, '4': 200}},
+    "Utilities": {"price": 150, 'rent': {'1': 4, '2': 10}},
+    "Income-Tax": {'price': 200},
+    "Luxury-Tax": {'price': 100}
+}
+
+// put the pieces on the board, and display the amount of money each person has on the bottom. 
+
+const board = [
+    "Go", "Mediteranean-Avenue", "communityChest1", "Baltic-Avenue", "Income-Tax", "Reading-Railroad", "Oriental-Avenue", "Chance-row-1", "Vermont-Avenue", 
+    "Fat-Connecticut-Avenue", "Jail-Visit", "St-Charles-Place", "Electric-Company", "States-Avenue", "Virgina-Avenue", "Pennsylvania-Railroad", "St-James-Place", "Community-chest-row-2",
+    "TennesseAvenue", "New-York-Avenue", "Free-Parking", "Kentucky-Avenue", "Chance-row-3", "Indiana-Avenue", "Illinois-Avenue", "B-O-Railroad", "Atlantic-Avenue",
+    "Ventnor-Avenue", "Water-Works", "Marvin-Gardens", "Go-To-Jail", "Pacific-Avenue", "North-Carolina-Avenue", "Community-chest-row-4", "Pennsylvania-Avenue", "Short-Line", 
+    "Chance-row-4", "Park-Place", "Luxury-Tax", "Boardwalk"
+]
 const piecesToChooseFrom = ["battleship", "boot", "car", "cat", "dog", "hat", "thimble", "wheelbarrow"]
+
 
 playerDict = {
     
 }
 
+playerStats = {
+
+}
 
 let playerCount = 0;
 askForPlayerCount();
@@ -85,23 +155,13 @@ function displayOptions(numberOfOptionsRemaining){
     }
     return str;
 }
-// put the pieces on the board, and display the amount of money each person has on the bottom. 
-const board = [
-    "Go", "Mediteranean-Avenue", "communityChest1", "Baltic-Avenue", "Income-Tax", "Reading-Railroad", "Oriental-Avenue", "Chance-row-1", "Vermont-Avenue", 
-    "Fat-Connecticut-Avenue", "Jail-Visit", "St-Charles-Place", "Electric-Company", "States-Avenue", "Virgina-Avenue", "Pennsylvania-Railroad", "St-James-Place", "Community-Chest-row-2",
-    "TenneseAvenue", "New-York-Avenue", "Free-Parking", "Kentucky-Avenue", "Chance-row-2", "Indiana-Avenue", "Illinois-Avenue", "B-O-Railroad", "Atlantic-Avenue",
-    "Vetnor-Avenue", "Water-Works", "Marvin-Gardens", "Go-To-Jail", "Pacific-Avenue", "North-Carolina-Avenue", "Community-Chest-row-3", "Pennsylvania-Avenue", "Short-Line", 
-    "Chance-row-4", "Park-Place", "Luxury-Tax", "Boardwalk"
-]
 
-playerStats = {
-    
-}
+
 
 const arr = Object.keys(playerDict);
 
 for(let i=0; i<arr.length; i++) {
-    playerStats[arr[i]] = {"money": 1500, "properties": [], "getOutOfJailCard": false, "diceSum": 0, "place": 0, "currPosition": 0};
+    playerStats[arr[i]] = {"money": 1500, "properties": [], "getOutOfJailCard": false, "diceSum": 0, "place": 0, "currPosition": 0, "propertyHouses": {}};
 }
 
 const playerStatsArr = Object.keys(playerStats);
@@ -126,9 +186,11 @@ function diceRoll() {
             count = 0;
         } 
         if(playerStats[playerOrder[count]]["currPosition"] + sum > board.length) {
-            sum -= (board.length - playerStats[playerOrder[count]]["currPosition"]);
+            sum -= ((board.length - 1) - playerStats[playerOrder[count]]["currPosition"]);
             playerStats[playerOrder[count]]["currPosition"] = 0;
             putOnGo();
+            distributeGoMoney(playerOrder[count]);
+        } else if (board[playerStats[playerOrder[count]['currPosition']]] === 'Go') {
             distributeGoMoney(playerOrder[count]);
         }
 
@@ -156,27 +218,36 @@ function distributeGoMoney(player) {
 function moveToken(player) {
     const colors = ["orange", "red", 'yellow', "blue", "green", "purple", "brown", "black"]
     for(let i=0; i<pieceArr.length; i++) {
-        if(pieceArr[i].src === (monopolyPieces[playerDict[player]])) {
+        let left = -3900;
+        let top = 50;
+        if(pieceArr[i].src === ("file:///C:/Monopoly/" + monopolyPieces[playerDict[player]])) {
+            alert("You are going to: " + board[playerStats[player]["currPosition"]]);
+            if(playerStats[player]["currPosition"] > 10 && playerStats[player]["currPosition"] < 20) {
+                    left = -100;
+            }
             document.querySelector("#" + board[playerStats[player]["currPosition"]]).appendChild(pieceArr[i]);
-            pieceArr[i].style.top = "50%";
-            pieceArr[i].style.left = "-3900%";
+            pieceArr[i].style.top = top + "%";
+            pieceArr[i].style.left = left + "%";
             pieceArr[i].style.border = "5px solid " + colors[i];
         }
     }
     let position = board[playerStats[player]["currPosition"]];
     let nonBuying = false;
-
+    
     if(position === "Chance-row-1" || position === "Chance-row-3" || position === "Chance-row-4") {
         displayChance();
         nonBuying = true;
-    } else if(position === "Community-chest-row-1" || position === "Community-Chest-row-2" || position === "Community-chest-row-4") {
+    } else if(position === "Community-chest-row-1" || position === "Community-chest-row-2" || position === "Community-chest-row-4") {
         displayCommunityChest();
         nonBuying = true;
     }
-    else if(position == "Reading-Railroad" || position === "Pennsylvania-Railroad" || position === "B-O-Railroad" || position === "Short-Line" || position === 'Income-Tax' || position === "Luxury-Tax" || position === "Jail-Visit") {
+    else if(position == "Reading-Railroad" || position === "Pennsylvania-Railroad" || position === "B-O-Railroad" || position === "Short-Line" || position === 'Income-Tax' || position === "Luxury-Tax" || position === "Jail-Visit"
+    || position === "Free-Parking" || position === "Go-To-Jail" || position === "Go") {
         // taxes 
         if(position === "Income-Tax" || position === 'Luxury-Tax') {
             payTaxes(player);
+        } else if(position === 'Reading-Railroad' || position === 'Pennsylvania-Railroad' || position === 'B-O-Railroad' || position === 'Short-Line') {
+            displayOptionsToBuyRailroad(player);
         }
         nonBuying = true;
     }
@@ -184,24 +255,165 @@ function moveToken(player) {
     if(!nonBuying) {
         if(!checkIfOwned(player)) {
             displayOptionsToBuy(player);
-        } else{
-            // calculateCost();
-            // canPayRent();
-            // payRent();
+        } else{ 
+            let costOfProperty = calculateCost(player);
+            alert("You Have to Pay: " + costOfProperty)
+            
+            if(canPayRent(player, costOfProperty)) {
+                payRent(player, costOfProperty);
+            } else {
+                if(!displayOptionsToSell(player)) {
+                    displayLoss(player);
+                } else {
+                    while(!canAfford(playerStats[player]["money"], player)) {
+                        if(!displayOptionsToSell(player)) {
+                            displayLoss(player);
+                        }
+                    }
+                }
+            }
         }
     }
 
     displayPersonStats(player); 
 }
 
+
+function displayOptionsToBuyRailroad(player) {
+    // document.querySelector("#rectangle").innerHTML = "";
+    // rectangle.innerHTML = "";
+    let rectangle = document.querySelector("#rectangle");
+    rectangle.innerHTML = "";
+    rectangle.style.width = "400px";
+    rectangle.style.height = "500px";
+    rectangle.style.position = "absolute";
+    rectangle.style.left = "50%";
+    rectangle.style.top = "45%";
+    rectangle.style.opacity = 1;
+    rectangle.style.border = '3px solid white';
+    rectangle.style.backgroundColor = 'white';
+
+    let image = document.createElement("img");
+    image.src = "https://images-na.ssl-images-amazon.com/images/I/31wkcwha%2BxL._SR600%2C315_PIWhiteStrip%2CBottomLeft%2C0%2C35_SCLZZZZZZZ_FMpng_BG255%2C255%2C255.jpg";
+    image.style.width = "200px";
+    image.style.position = "absolute";
+    image.style.top = 0;
+    image.style.left = "-50%";
+
+    rectangle.appendChild(image);
+
+
+    let name = document.createElement("div");
+    name.style.width = "auto";
+    name.style.height = 'auto';
+    name.innerHTML = board[playerStats[player]['currPosition']] + "<br />";
+    name.innerHTML += "Rent:  $25 <br  />"; 
+    name.innerHTML += "If 2 Railroads are owned: 50 <br />";
+    name.innerHTML += "If 3 Railroads are owned: 100 <br />";
+    name.innerHTML += "If 4 Railroads are owned: 200 <br />";
+    name.style.position = 'absolute';
+    name.style.top = '50%';
+    name.style.color = 'black';
+    rectangle.appendChild(name);
+
+    let buyButton = document.createElement("btn");
+    buyButton.id = "buyButton";
+    buyButton.style.height = '100px';
+    buyButton.style.width = "150px";
+    buyButton.style.border = '3px solid white';
+    buyButton.innerHTML = "BUY";
+    buyButton.style.position = "absolute";
+    buyButton.style.top = "70%";
+    buyButton.style.left = "10%";
+    buyButton.style.backgroundColor = "green";
+    buyButton.style.color = "black";
+    rectangle.appendChild(buyButton);
+
+    let noButton = document.createElement("btn");
+    noButton.id = "noButton";
+    noButton.style.height = '100px';
+    noButton.style.width = "150px";
+    noButton.style.border = '3px solid white';
+    noButton.innerHTML = "NO";
+    noButton.style.position = "absolute";
+    noButton.style.top = "70%";
+    noButton.style.left = "50%";
+    noButton.style.backgroundColor = "red";
+    noButton.style.color = "black";
+    rectangle.appendChild(noButton);
+
+    document.querySelector("#buyButton").addEventListener("click", buyRailroad);
+    document.querySelector("#noButton").addEventListener("click", noBuyRailroad);
+}
+
+function buyRailroad() {
+    alert("Player is: " + playerOrder[count - 1])
+    if(playerStats[playerOrder[count - 1]]['money'] > 200) {
+        playerStats[playerOrder[count - 1]]['money'] -= 200;
+        playerStats[playerOrder[count - 1]]['properties'].push(board[playerStats[playerOrder[count - 1]]['currPosition']]);
+    } else {
+        notEnoughMoney();
+    }
+}
+
+function notEnoughMoney() {
+    alert("Not enough money loser.")
+}
+
+function noBuyRailroad() {
+    document.querySelector("#rectangle").innerHTML = '';
+    youDidNotBuy();
+}
+
+function youDidNotBuy() {
+    alert("You didn't buy: " + board[playerStats[playerOrder[count-1]]['currPosition']]);
+}
+
+function calculateCost(player) {
+    let players = Object.keys(playerStats);
+    let playerOwned;
+    let propertyOwned;
+    for(let i=0; i<players.length; i++) {
+        for(let j=0; j<playerStats[players[i]]['properties'].length; j++) {
+            if(playerStats[players[i]]['properties'][j] === board[playerStats[player]['currPosition']]) {
+                playerOwned = players[i];
+                propertyOwned = playerStats[players[i]]['properties'][j];
+                break;
+            }
+        }
+    }
+    return avenueStats[board[playerStats[player]["currPosition"]]]["rent"][playerStats[playerOwned]['propertyHouses'][propertyOwned]];
+}
+function canPayRent(player, cost) {
+    if(playerStats[player]["money"] > cost){
+        return true;
+    } else {
+        return false;
+    }
+}
+function payRent(player, cost) {
+    let players = Object.keys(playerStats);
+    for(let i=0; i<players.length; i++) {
+        for(let j=0; j<playerStats[players[i]]["properties"].length; j++) {
+            if(board[playerStats[player]["currPosition"]] === playerStats[players[i]]["properties"][j]) {
+                playerStats[player]["money"] -= cost;
+                playerStats[players[i]]["money"] += cost; 
+                break;
+            }
+        }
+    }
+}
+
 function displayPersonStats(player) {
     let statsBox = document.querySelector("#personStats");
     statsBox.style.border = "3px solid black";
-    statsBox.style.width = "800px";
+    statsBox.style.width = "1000px";
     statsBox.style.height = "auto";
     statsBox.style.position = "absolute";
     statsBox.style.top = "100%";
     statsBox.style.color = "black";
+    statsBox.innerHTML = "";
+
     for(let i=0; i<playerOrder.length; i++) {
         statsBox.innerHTML  += "Player: " + playerOrder[i] + " {Money: " + playerStats[playerOrder[i]]["money"] + ", Properties Owned: [" + playerStats[playerOrder[i]]['properties'] + "], Current Position: " + board[playerStats[playerOrder[i]]["currPosition"]] + "} <br />";  
     }
@@ -209,13 +421,57 @@ function displayPersonStats(player) {
 
 function payTaxes(player) {
     if(!canAfford(playerStats[player]["money"], player)) {
-        // displayOptionsToSell();
-        // displayLoss();
+        if(!displayOptionsToSell(player)) {
+            displayLoss(player);
+        } else {
+            while(!canAfford(playerStats[player]["money"], player)) {
+                if(!displayOptionsToSell(player)) {
+                    displayLoss(player);
+                }
+            }
+        }
+
+    } else {
+        playerStats[player]["money"] -= avenueStats[board[playerStats[player]['currPosition']]]["price"];
+        alert("You have paid " + avenueStats[board[playerStats[player]['currPosition']]]["price"] + "!");
     }
-    playerStats[player]["money"] -= avenueStats[board[playerStats[player]['currPosition']]];
-    alert("You have paid " + avenueStats[board[playerStats[player]['currPosition']]] + "!");
 }
 
+displayOptionsToSell(player) {
+    if(playerStats[player]['properties'].length === 0) {
+        return false;
+    }
+
+    alert("YOU ARE SOON GOING TO GO BANKRUPT, YOU HAVE THESE OPTIONS TO SELL NOTICE IF YOU SELL A PROPERTY, ALL THE HOUSES GOOOO WITH ITTT: ");
+    let options = ''
+    
+    for(let i=0; i<playerStats[player]['properties'].length; i++) {
+        options += playerStats[player]['properties'][i] + " ";
+    }
+
+    let option = prompt("OPTIONS: " + options.toUpperCase());
+    while(!playerStats[player]['properties'].includes(option)) {
+        prompt("OPTIONS: " + options.toUpperCase());
+    }
+
+    if(playerStats['propertyHouses'][option] === 'hotel') {
+        playerStats[player]['money'] += (avenueStats[option]['pricePerHouse'] * 5);
+    } else {
+        playerStats[player]['money'] += (avenueStats[option]['pricePerHouse'] * (playerStats['propertyHouses'][option]))
+    }
+
+}
+
+function displayLoss() {
+    alert(player + " has LOST! LOSER");
+    for(let i=0; i<playerOrder.length; i++) {
+        if(playerOrder[i] === player) {
+            playerOrder[i].splice(i, 1);
+        }
+    }
+
+    alert("WE HAVE KICKED: " + player + " FOR BEING A LOSER.")
+}
 
 function canAfford(money, player) {
     if(money > avenueStats[board[playerStats[player]["currPosition"]]]["price"]) {
@@ -227,10 +483,11 @@ function canAfford(money, player) {
 
 function displayCommunityChest () {
     let randomCard = Math.floor(Math.random() * communityChestCards.length) + 1;
-    alert(communityChestCard[randomCard]);
-    communityChestCard.splice(randomCard, 1);
+    alert(communityChestCards[randomCard]);
+    communityChestCards.splice(randomCard, 1);
 
     // enforce
+
 }
 function displayChance() {
     let randomCard = Math.floor(Math.random() * chanceCards.length) + 1;
@@ -277,9 +534,13 @@ avenueColor = {
     "Boardwalk": "darkblue"
 }
 
-let rectangle = document.querySelector("#rectangle");
+let btn = document.createElement("button");
+let no = document.createElement("button");
 
 function displayOptionsToBuy(player) {
+    // let rectangle = document.createElement("div");
+    let rectangle = document.querySelector("#rectangle");
+    // rectangle.id = "rectangle";
     let color = document.querySelector("#color");
     let stats = document.querySelector("#stats");
     let moreStats = document.querySelector("#moreStats");
@@ -290,17 +551,18 @@ function displayOptionsToBuy(player) {
     rectangle.style.position = "absolute";
     rectangle.style.left = "50%";
     rectangle.style.top = "45%";
-    rectangle.style.border = "2px solid orange";
+    rectangle.style.border = "2px solid " + avenueColor[avenue];
     rectangle.style.backgroundColor = "black";
     rectangle.style.opacity = 1;
 
+    alert("Avenue For Color: " + avenue);
     color.style.backgroundColor = avenueColor[avenue];
     color.style.height = "100px";
     color.style.width = "400px";
     color.style.position = "absolute";
     color.style.top =  "0%";
     color.style.color = "white";
-    color.innerHTML += avenue;
+    color.innerHTML = avenue;
     color.style.fontSize = "20px";
     rectangle.appendChild(color);
     
@@ -313,14 +575,15 @@ function displayOptionsToBuy(player) {
     stats.innerHTML = "Rent  $" + avenueStats[avenue]['rent']["0"];
     stats.style.left = "35%";
     stats.style.fontSize = "30px";
-
+    
     rectangle.appendChild(stats);
-
+    
     moreStats.style.color = "white";
     moreStats.style.position = "absolute";
     moreStats.style.marginTop = "100px";
     moreStats.style.left = "25%";
     moreStats.style.top = "20%";
+    moreStats.innerHTML = "";    
 
     for(let i=1; i<=5; i++) {
         if(i === 5) {
@@ -336,7 +599,6 @@ function displayOptionsToBuy(player) {
 
     rectangle.appendChild(moreStats);   
 
-    let btn = document.createElement("button");
     btn.id = "buyButton";
     btn.style.height = '100px';
     btn.style.width = "150px";
@@ -349,7 +611,6 @@ function displayOptionsToBuy(player) {
     btn.style.color = "black";
     rectangle.appendChild(btn);
 
-    let no = document.createElement("button");
     no.id = "noButton";
     no.style.height = '100px';
     no.style.width = "150px";
@@ -373,37 +634,52 @@ function buy() {
     if(parseInt(numberHouses) > 4) {
         alert("Try again!")
     } else {
-        let player = playerOrder[playerCount - 1];
-
-        if(affordable(player, playerStats[player]["money"], board[playerStats[player]["currPosition"]], numberHouses)) { 
+        alert("Player Order array: " + playerOrder);
+        let player = playerOrder[count-1];
+        // alert("Count: " + count )
+        if(affordable(playerStats[player]["money"], board[playerStats[player]["currPosition"]], numberHouses)) { 
             alert("Bought with " + numberHouses + " houses/hotels");
             playerStats[player]["properties"].push(board[playerStats[player]["currPosition"]]);
-            alert("Owned: " + playerStats[player]["properties"])
+            playerStats[player]["propertyHouses"][board[playerStats[player]["currPosition"]]] = numberHouses;
+
+            if(numberHouses === 'hotel') {
+                playerStats[player]["money"] -= (avenueStats[board[playerStats[player]["currPosition"]]]['pricePerHouse'] * 5) + avenueStats[board[playerStats[player]["currPosition"]]]["price"];
+            } else {
+                playerStats[player]["money"] -= (avenueStats[board[playerStats[player]["currPosition"]]]['pricePerHouse'] * parseInt(numberHouses)) + avenueStats[board[playerStats[player]["currPosition"]]]["price"];
+            }
+            alert("Owned: " + playerStats[player]["properties"]);
+            displayPersonStats(player); 
         } else {
-            alert("Not enough money loser");
+            notEnoughMoney();
+            // alert("Not enough money loser");
         }
+
+        // rectangle.innerHTML = "";
     }
 }
 
-function affordable(player, money, avenue, numberOfHouses) { 
+function affordable(money, avenue, numberOfHouses) { 
     if(money === 0) {
         // youLose();
     }
     if(numberOfHouses.toLowerCase() === "hotel") {
-        if(money > (avenueStats[avenue]["pricePerHouse"] * 4) + avenueStats[avenue]["pricePerHouse"]) {
+        if(money > ((avenueStats[avenue]["pricePerHouse"] * 5) + avenueStats[avenue]["price"])) {
             return true;
         } else {
             return false;
         }
-    }
-    if (money > ((avenueStats[avenue]["pricePerHouse"]) * parseInt(numberOfHouses))) {
-        return true;
     } else {
-        return false;
-    }  
+        if (money > ((avenueStats[avenue]["pricePerHouse"]) * parseInt(numberOfHouses) + (avenueStats[avenue]['price']))) {
+            return true;
+        } else {
+            return false;
+        }  
+    }
 }
 
 function noBuy() {
+    youDidNotBuy();
+    // alert("You didn't buy: " + board[playerStats[playerOrder[count-1]]["currPosition"]]);
     rectangle.remove();
 }
 
@@ -423,6 +699,7 @@ function sumDice() {
         sumDice();
         counter++;
     }
+
     let sum = dice1 + dice2;
     return sum;
 }
@@ -503,34 +780,7 @@ function putPiecesOnBoard() {
 }
 
 
-avenueStats = {
-    "Mediteranean-Avenue": {"price": 60, "pricePerHouse": 50, "rent":{'0': 2, '1': 10, '2': 30, '3': 90, '4': 160, 'hotel': 250}},
-    "Baltic-Avenue": {"price": 60, "pricePerHouse": 50, "rent": {'0': 4, '1':20, '2': 60, '3': 180, '4': 320, 'hotel': 450}},
-    "Oriental-Avenue": {"price": 100, "pricePerHouse": 50, "rent": {'0': 6, '1': 30, '2': 90, '3': 270, '4': 400, 'hotel': 550}},
-    "Vermont-Avenue": {'price': 100, 'pricePerHouse': 50, 'rent': {'0': 6, '1': 30, '2': 90, '3': 270, '4': 400, 'hotel': 550}},
-    "Fat-Connecticut-Avenue": {'price': 120, 'pricePerHouse': 50, 'rent': {'0': 8, '1': 40, '2': 100, '3': 300, '4': 450, 'hotel': 600}},
-    "St-Charles-Place": {'price': 140, 'pricePerHouse': 100, 'rent': {'0': 10, '1': 50, '2': 150, '3': 450, '4': 625, 'hotel': 750}},
-    "States-Avenue": {'price': 140, 'pricePerHouse': 100, 'rent': {'0': 10, '1': 50, '2': 150, '3': 450, '4': 625, 'hotel': 750}},
-    "Virgina-Avenue": {'price': 160, 'pricePerHouse': 100, 'rent': {'0': 12, '1': 60, '2': 180, '3': 500, '4': 700, 'hotel': 900}},
-    "St-James-Place": {'price': 180, 'pricePerHouse': 100, 'rent': {'0': 14, '1': 70, '2': 200, '3': 550, '4': 750, 'hotel': 950}},
-    "Tennesse-Avenue": {'price': 180, 'pricePerHouse': 100, 'rent': {'0': 14, '1': 70, '2': 200, '3': 550, '4': 750, 'hotel': 950}},
-    "New-York-Avenue": {'price': 200, 'pricePerHouse': 100, 'rent': {'0': 16, '1': 80, '2': 220, '3': 600, '4': 800, 'hotel': 1000}},
-    "Kentucky-Avenue": {'price': 220, 'pricePerHouse': 150, 'rent': {'0': 18, '1': 90, '2': 250, '3': 700, '4': 875, 'hotel': 1050}},
-    "Indiana-Avenue": {'price': 220, 'pricePerHouse': 150, 'rent': {'0': 18, '1': 90, '2': 250, '3': 700, '4': 875, 'hotel': 1050}},
-    "Illinois-Avenue": {'price': 240, 'pricePerHouse': 150, 'rent': {'0': 20, '1': 100, '2': 300, '3': 750, '4': 925, 'hotel': 1100}},
-    "Atlantic-Avenue": {'price': 260, 'pricePerHouse': 150, 'rent': {'0': 22, '1': 110, '2': 330, '3': 800, '4': 975, 'hotel': 1150}},
-    "Vetnor-Avenue": {'price': 260, 'pricePerHouse': 150, 'rent': {'0': 22, '1': 110, '2': 330, '3': 800, '4': 975, 'hotel': 1150}},
-    "Marvin-Gardens": {'price': 280, 'pricePerHouse': 150, 'rent': {'0': 24, '1': 120, '2': 360, '3': 850, '4': 1025, 'hotel': 1200}},
-    "Pacific-Avenue": {'price': 300, 'pricePerHouse': 200, 'rent': {'0': 26, '1': 130, '2': 390, '3': 900, '4': 1100, 'hotel': 1275}},
-    "North-Carolina-Avenue": {'price': 300, 'pricePerHouse': 200, 'rent': {'0': 26, '1': 130, '2': 390, '3': 900, '4': 1100, 'hotel': 1275}},
-    "Pennsylvania-Avenue": {'price': 320, 'pricePerHouse': 200, 'rent': {'0': 28, '1': 150, '2': 450, '3': 1000, '4': 1200, 'hotel': 1400}},
-    "Park-Place": {'price': 350, 'pricePerHouse': 200, 'rent': {'0': 35, '1': 175, '2': 500, '3': 50, '4': 1100, 'hotel': 1300}},
-    "Boardwalk": {'price': 400, 'pricePerHouse': 200, 'rent': {'0': 50, '1': 200, '2': 600, '3': 1400, '4': 1700, 'hotel': 2000}},
-    "Railroads": {'price': 200, 'rent': {'1': 25, '2': 50, '3': 100, '4': 200}},
-    "Utilities": {"price": 150, 'rent': {'1': 4, '2': 10}},
-    "Income-Tax": {'price': 200},
-    "Luxury-Tax": {'price': 100}
-}
+
 
 document.querySelector("#rollDice").addEventListener("click", diceRoll);
 

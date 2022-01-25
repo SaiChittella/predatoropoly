@@ -1,12 +1,9 @@
 These are all the Bugs to Fix:
     1) On Second Row, the divs are not on the "left" side, so special case required to put the piece below instead of above.
-    2) currPosition is sometimes bugged for certain avenues, meaning that the "board" array names at times don't match with the div id.
-    3) Player Stats keeps on appending, we need to delete previous and then appned.
     4) Chance and Community Chests need to be enforced.
-    5) Mortgage Card keeps appending. Delete and then display.
     6) Flip piece as it traverses the board.
-    7) Income and Luxury Tax don't collect money correctly instead they collect the object.
-    
+    7) When pressing no to buy, and next player lands on that, card not showing.
+
 
 1) Display where starting positoin, and then sum, and then the ending position to ensure correct landing.
 
