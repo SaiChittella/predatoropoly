@@ -24,7 +24,8 @@ const board = [
     "Ventnor-Avenue", "Water-Works", "Marvin-Gardens", "Go-To-Jail", "Pacific-Avenue", "North-Carolina-Avenue", "Community-chest-row-4", "Pennsylvania-Avenue", "Short-Line", 
     "Chance-row-4", "Park-Place", "Luxury-Tax", "Boardwalk"
 ]
-chanceAndCommunityChestCardEnforcement = {
+
+cardEnforcement= {
     'Advance To Boardwalk': {'currPosition': (board.length - 1)},
     'Adance to Go (Collect $200)': {'currPosition': 0, 'money': 200},
     'Advance To Illinois Avenue. If you pass Go, collect $200': {'currPosition': 24, 'money': 200},
@@ -35,7 +36,7 @@ chanceAndCommunityChestCardEnforcement = {
     'Get Out Of Jail Free': {'getOutOfJailFree': true},
     'Go Back Three Spaces': {'curPosition': -3},
     'Go To Jail. Go directly to Jail, do not pass Go, do not collect $200': {'currPosition': 10},
-    'Make general repairs on all your property. For each house pay $25. For each hotel pay $100': 'specialCase',
+    'Make general repairs on all your property. For each house pay $25. For each hotel pay $100': 'specialCase1',
     'Speeding fine $15': {'money': -15},
     'Take a trip to Reading Railroad. If you pass Go, collect $200': {'currPosition': 5},
     'You have been elected Chairman of the Board. Pay each player $50': {'money': -50},
@@ -49,7 +50,7 @@ chanceAndCommunityChestCardEnforcement = {
     'Pay hospital fees of $100': {'money': -100},
     'Pay school fees of $50': {'money': -50},
     'Receive $25 consultancy fee': {'money': 25},
-    'You are assessed for street repair': 'specialCase2',
+    'You are assessed for street repair. $40 per house. $115 per hotel': 'specialCase2',
     'You have won second prize in a beauty contest. Collect $10': {'money': 10},
     'You inherit $100': {'money': 100},
 }
@@ -163,7 +164,7 @@ function displayOptions(numberOfOptionsRemaining){
 const arr = Object.keys(playerDict);
 
 for(let i=0; i<arr.length; i++) {
-    playerStats[arr[i]] = {"money": 1500, "properties": [], "getOutOfJailCard": false, "diceSum": 0, "place": 0, "currPosition": 0, "propertyHouses": {}};
+    playerStats[arr[i]] = {"money": 1500, "properties": [], "getOutOfJailCard": false, "diceSum": 0, "place": 0, "currPosition": 0, "propertyHouses": {}, 'inJail': false};
 }
 
 const playerStatsArr = Object.keys(playerStats);
@@ -178,6 +179,7 @@ const playerOrder = []
 let count = 0;
 
 function diceRoll() {
+    let jailCount = 0;
     if(firstPlay){
         determineWhoGoesFirst();
         firstPlay = false;
@@ -187,6 +189,12 @@ function diceRoll() {
         if(count === playerCount) {
             count = 0;
         } 
+        if(playerStats[playerOrder[count]]['inJail']) {
+            jailCount++;
+            if(jailCount === 3) {
+                playerStats[playerOrder[count]['inJail']] = false;
+            }
+        }
         if(playerStats[playerOrder[count]]["currPosition"] + sum > board.length) {
             sum -= ((board.length - 1) - playerStats[playerOrder[count]]["currPosition"]);
             playerStats[playerOrder[count]]["currPosition"] = 0;
@@ -443,7 +451,7 @@ function displayOptionsToSell(player) {
     if(playerStats[player]['properties'].length === 0) {
         return false;
     } 
-
+    
     alert("YOU ARE SOON GOING TO GO BANKRUPT, YOU HAVE THESE OPTIONS TO SELL NOTICE IF YOU SELL A PROPERTY, ALL THE HOUSES GOOOO WITH ITTT: ");
     let options = ''
     
@@ -455,7 +463,6 @@ function displayOptionsToSell(player) {
     while(!playerStats[player]['properties'].includes(option)) {
         prompt("OPTIONS: " + options.toUpperCase());
     }
-
     if(playerStats['propertyHouses'][option] === 'hotel') {
         playerStats[player]['money'] += (avenueStats[option]['pricePerHouse'] * 5);
     } else {
@@ -488,8 +495,8 @@ function displayCommunityChest () {
     alert(communityChestCards[randomCard]);
     communityChestCards.splice(randomCard, 1);
 
-    // enforce
-    enforcement();
+    //enforcing the cards
+    enforcement(chanceCards[randomCard]);
 
 }
 function displayChance() {
@@ -497,12 +504,187 @@ function displayChance() {
     alert(chanceCards[randomCard]);
     chanceCards.splice(randomCard, 1);
 
-    // enforce
-    enforcement();
+    // enforcing the cards
+    enforcement(chanceCards[randomCard]);
 }
 
-function enforecement() {
+function enforecement(THECARDBOI) {
+    if(cardEnforcement[THECARDBOI] === 'specialCase1' || cardEnforcement[THECARDBOI] === 'specialCase2') {
+        if(cardEnforcement[THECARDBOI] === 'specialCase1') {
+            // 100 per hotel pay for each property loser 
+            // 25 per house 
+            let player = playerOrder[count-1];
+            let propertyNames = Object.keys(playerStats[player]['propertyHouses']);
+            for(let i=0; i<propertyNames.length; i++) {
+                if(playerStats[player]['propertyHouses'][propertyNames[i]] === 'hotel') {
+                    totalCost += 100;
+                } else {
+                    totalCost += 25;
+                }
+            }
+        } else {
+            // 115 per hotel
+            //  40 dollariodos per house
+            let player = playerOrder[count-1];
+            let propertyNames = Object.keys(playerStats[player]['propertyHouses']);
+            for(let i=0; i<propertyNames.length; i++) {
+                if(playerStats[player]['propertyHouses'][propertyNames[i]] === 'hotel') {
+                    totalCost += 115;
+                } else {
+                    totalCost += 40;
+                }
+            }
+        }
+    } else {
+        let inJail = false;
+        if(THECARDBOI === 'Advance to Boardwalk') {
+            moveTokenToPlace('Boardwalk');
+        } else if(THECARDBOI === 'Advance to Go. Collect $200') {
+            // move piece to Go. Add 200
+            moveTokenToPlace('Go');
+            receieveMoney(200);
+        } else if(THECARDBOI === 'Advance to Illinois Avenue') {
+            // moveToken
+            moveTokenToPlace('Illinois-Avenue');
+        } else if(THECARDBOI ===  'Advance to St. Charles Place. If you pass Go, collect $200'){
+            // move 
+            moveTokenToPlace('St-Charles-Place');
+        } else if(THECARDBOI === 'Advance to the nearest Railroad. If unowned, you buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled') {
+            let nearestRailroad = findNearestRailroad();
+            alert('Nearest railroad is: ' + nearestRailroad); 
+            moveTokenToPlace(nearestRailroad);
+        } else if(THECARDBOI === 'Bank pays you divident of $50') {
+            received(50);
+        } else if(THECARDBOI === 'Get Out Of Jail Free') {
+            playerStats[count-1]['getOutOfJailCard'] = true;
+        } else if(THECARDBOI === 'Go Back Three Spaces') {
+            moveTokenToPlace(board[playerStats[count-1]['curPosition'] - 3])
+        } else if(THECARDBOI === 'Go To Jail. Go directly to Jail, do not pass Go, do not collect $200') {
+            moveTokenToPlace('Jail-Visit');
+            inJail = true;
+        } else if(THECARDBOI === 'Speeding fine $15') {
+            recieveMoney(-15);
+        } else if(THECARDBOI === 'Take a trip to Reading Railroad. If you pass Go, collect $200') {
+            moveTokenToPlace('Reading-Railroad');
+        } else if(THECARDBOI === 'You have been elected Chairman of the Board. Pay each player $50') {
+            payEveryone(50);
+        } else if(THECARDBOI === 'Your building loan matures. Collect $150') {
+            receiveMoney(150);
+        } else if(THECARDBOI === 'Bank error in your favor. Collect $200') {
+            receiveMoney(200);
+        } else if(THECARDBOI === 'From sale of stock you get $50') {
+            receiveMoney(50);
+        } else if(THECARDBOI === 'Holiday fund matures. Receive $100') {
+            receiveMoney(100);
+        } else if(THECARDBOI === 'Income tax refund') {
+            recieveMoney(100);
+        } else if(THECARDBOI === 'It is your birthday. Collect $10 from every player') {
+            receiveMoney(10 * playerCount);
+            deductMoneyFromEVERYLOSER();
+        } else if(THECARDBOI === 'Life insurance matures'){
+            receiveMoney(100);
+        } else if(THECARDBOI === 'Pay hospital fees of $100'){
+            receiveMoney(-100);
+        } else if(THECARDBOI === 'Pay school fees of $50'){
+            receiveMoney(-50);
+        } else if(THECARDBOI === 'Receive $25 consultancy fee'){
+            receiveMoney(25);
+        } else if(THECARDBOI === 'You have won second prize in a beauty contest. Collect $10') {
+            receiveMoney(10);
+        } else if(THECARDBOI === 'You inherit $100') {
+            recieveMoney(100);
+        }
+    }
+}
+
+function deductMoneyFromEVERYLOSER() {
+    for(let i=0; i<playerOrder.length; i++){
+        playerStats[playerOrder[i]]['money'] -= 10;
+    }
+}
+function receiveMoney(moneyRecieved) {
+    playerStats[playerOrder[count-1]]['money'] += moneyRecieved;
+}
+
+function moveTokenToPlace(place) {
+    if(inJail){ 
+        jail();
+    }
+    // get player piece
+    let player = playerOrder[count-1];
+    let playerPiece;
+    let placeNum;
+    for(let i=0; i<pieceArr.length; i++){
+        
+        if(pieceArr[i].src === ("file:///C:/Monopoly/" + monopolyPieces[playerDict[player]])) {
+            playerPiece = pieceArr[i].src;
+            break;
+        }
+    } 
+
+    for(let i=0; i<board.length; i++) {
+        let left = -3900;
+        let top = 50;
+        
+        if(board[i] === place){
+            alert("You are going to: " + board[playerStats[player]["currPosition"]]);
+            if(playerStats[player]["currPosition"] > 10 && playerStats[player]["currPosition"] < 20) {
+                    left = -100;
+            }
+            placeNum = i;
+            document.querySelector('#' + board[i]).appendChild(playerPiece);
+            pieceArr[i].style.top = top + "%";
+            pieceArr[i].style.left = left + "%";
+            playerStats[player]['currPosition'] = i;
+            break;
+        }
+    }
+
+    if(playerStats[player]['currPosition'] > placeNum) {
+        distributeGoMoney();        
+    }
+} 
+
+function jail() {
+    const arr = ['Pay $50', 'Wait three turns', 'Get Out of Jail Free Card'];
+    let row = 0;
+    let choice = prompt('To Get Out Of Jail, you have three options: Pay $50. Wait three turns, or use a Get Out of Jail Free Card.');
+    while(!arr.includes(choice)) {
+        choice = prompt('To Get Out Of Jail, you have three options: Pay $50. Wait three turns, or use a Get Out of Jail Free Card.');
+        if(row === 3){
+            alert("STOP BEING DYSLEXIC LOSER");
+        }
+        row++;
+    }
+
+    if(choice === 'Get Out Of Jail Free Card' && playerStats[playerOrder[count-1]]['getOutOfJailCard']) {
+        playerStats[playerOrder[count-1]]['getOutOfJailCard'] = false;
+    } else if(choice === 'Pay $50') {
+        recieveMoney(-50);
+    } else {
+        playerStats[playerOrder[count-1]]['inJail'] = true;
+        for(let i=0; i<playerOrder.length; i++) {
+            if(playerOrder[i] === playerOrder[count-1]) {
+                playerOrder.splice(i,1);
+            }
+        }
+    }
+}
+
+function findNearestRailroad() {
+    let player = playerOrder[count-1];
+    let position = playerStats[player]['currPosition'];
+    let distance = 1000;
     
+    for(let i=0; i<board.length; i++){
+        if(board[i] === 'Reading-Railroad' || board[i] === 'Pennsylvania-Railroad' || board[i] === 'B-O-Railroad' || board[i] === 'Short-Line') {
+            if(Math.abs(board[i] - position) < distance){
+                distance = Math.abs(board[i] - position);
+            }
+        }
+    }
+
+    return board[position + distance];
 }
 
 function checkIfOwned(player) {
@@ -791,7 +973,6 @@ function putPiecesOnBoard() {
 
 
 
-
 document.querySelector("#rollDice").addEventListener("click", diceRoll);
 
 
@@ -800,9 +981,3 @@ const test = Object.keys(playerStats);
 function checkPlace() {
     alert("Order: " + playerOrder);
 }
-
-// alert(playerStats[newArr[0]]["money"]);
-
-// alert(monopolyPieces[playerDict["Sai"]]);
-
-// alert(communityChestCards[Math.floor(Math.random() * communityChestCards.length)]);

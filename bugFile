@@ -1,8 +1,5 @@
 These are all the Bugs to Fix:
-    1) On Second Row, the divs are not on the "left" side, so special case required to put the piece below instead of above.
     4) Chance and Community Chests need to be enforced.
-    6) Flip piece as it traverses the board.
-    7) When pressing no to buy, and next player lands on that, card not showing.
 
 
 1) Display where starting positoin, and then sum, and then the ending position to ensure correct landing.
