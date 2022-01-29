@@ -1,6 +1,10 @@
-These are all the Bugs to Fix:
+ OLD BUGS ********* These are all the Bugs to Fix:
+    1) On Second Row, the divs are not on the "left" side, so special case required to put the piece below instead of above.
+    3) Player Stats keeps on appending, we need to delete previous and then appned.
     4) Chance and Community Chests need to be enforced.
-
+    6) Flip piece as it traverses the board.
+    7) When pressing no to buy, and next player lands on that, card not showing.
+    8) 
 
 1) Display where starting positoin, and then sum, and then the ending position to ensure correct landing.
 
@@ -48,4 +52,11 @@ These are all the Bugs to Fix:
     BUGS TO REMEMBER!!!!!!!!!!!!!!!!
     1) B&O Railroad is wrong FIX IT
     2) Chance and Community Chests images need to be on the rectangles FIX ITTTT
-    3) Move Monopoly man down FIX ITTT
+    3) Move Monopoly man down FIX ITTT ************************
+
+NEW BUGS 1/28/2022 ONWARD ---->
+    1) GO TO JAILL IS BROKEN
+    2) MONEY ISN'T BEING DISTRIBUTED FOR THE PASS GO.
+    3) Community chest is not giving card.
+    4) ENFORCEMENT IS NOT WORKING
+    5) 

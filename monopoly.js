@@ -496,7 +496,7 @@ function displayCommunityChest () {
     communityChestCards.splice(randomCard, 1);
 
     //enforcing the cards
-    enforcement(chanceCards[randomCard]);
+    enforecement(chanceCards[randomCard]);
 
 }
 function displayChance() {
@@ -505,7 +505,7 @@ function displayChance() {
     chanceCards.splice(randomCard, 1);
 
     // enforcing the cards
-    enforcement(chanceCards[randomCard]);
+    enforecement(chanceCards[randomCard]);
 }
 
 function enforecement(THECARDBOI) {
