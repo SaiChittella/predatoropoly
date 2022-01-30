@@ -1,5 +1,7 @@
-// HTJAPYSSSCRIPTARY
-
+/* HTJAPYSSSCRIPTARY is a new language devolped by Rehaan Irfan and Sai Chittella (best devs in the world) 
+ this new language is a mash-up of several diffrent languages making it the BEST language in exsitence every piece
+ of code has a constan
+/*
 /*
 <DOCTYPE! HTML>
     class bannana{
