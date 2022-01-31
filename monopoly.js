@@ -720,9 +720,7 @@ function moveTokenToPlace(place) {
     let player = playerOrder[count-1];
     let playerPiece;
     let placeNum;
-    if(playerStats[player]['currPosition'] > placeNum && inJail === false) {
-        distributeGoMoney(); 
-    }
+    
     for(let i=0; i<pieceArr.length; i++){
         
         if(pieceArr[i].src === ("file:///C:/Monopoly/" + monopolyPieces[playerDict[player]])) {
@@ -747,8 +745,10 @@ function moveTokenToPlace(place) {
             playerStats[player]['currPosition'] = i;
             break;
         }
+    } there it should work now, let me re committ
+    if(playerStats[player]['currPosition'] > placeNum && !inJail) {
+        distributeGoMoney();
     }
-    
     if(inJail){ 
         jail();
     }
