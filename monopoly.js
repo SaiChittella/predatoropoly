@@ -26,7 +26,7 @@ const board = [
 ]
 
 cardEnforcement= {
-    'Advance To Boardwalk': {'currPosition': (board.length - 1)},
+    'Advance To Boardwalk': {'currPosition': (board.length - 1)}, 
     'Adance to Go (Collect $200)': {'currPosition': 0, 'money': 200},
     'Advance To Illinois Avenue. If you pass Go, collect $200': {'currPosition': 24, 'money': 200},
     'Advance to St. Charles Place. If you pass Go, collect $200': {'currPosition': 11, 'money': 200},
@@ -237,8 +237,9 @@ function moveToken(player) {
             pieceArr[i].style.top = top + "%";
             pieceArr[i].style.left = left + "%";
             pieceArr[i].style.border = "5px solid " + colors[i];
-        }
-    }
+        } 
+    } 
+    
     let position = board[playerStats[player]["currPosition"]];
     let nonBuying = false;
     if(position === 'Go-To-Jail') {
@@ -270,7 +271,12 @@ function moveToken(player) {
                 let costOfProperty;
                 let owner = findWhoOwns(board[playerStats[player]['currPosition']]);
                 let numOwned = propertiesOwned(owner, board[playerStats[player]['currPosition']]);
-                alert("You Have to Pay: " + costOfProperty)
+                if(numOwned == 1) {
+                    costOfProperty = playerStats[player]['diceSum'] * 4;
+                } else if(numOwned == 2){
+                    costOfProerty = playerStats[player]['diceSum'] * 10; 
+                }
+                alert("You Have to Pay: " + costOfProperty);
             }
             
         }
@@ -302,6 +308,7 @@ function moveToken(player) {
 
     displayPersonStats(player); 
 }
+
 function propertiesOwned(owner, property) {
     let num;
     let type;
@@ -314,7 +321,11 @@ function propertiesOwned(owner, property) {
     for(let i=0; i<playerStats[owner]['properties'].length; i++) {
         if(type === 'Railroad') {
             if(playerStats[owner]['property'][i] === 'Reading-Railroad' || playerStats[owner]['property'][i] === 'Pennsylvania-Railroad' || playerStats[owner]['property'][i] === 'B-O-Railroad' || playerStats[owner]['property'][i] === 'Short-Line'){
-
+                num++;
+            } 
+        } else {
+            if(playerStats[owner]['property'][i] === 'Electric-Company' || playerStats[owner]['property'][i] === 'Water-Works'){
+                num++;
             }
         }
     }
@@ -323,7 +334,7 @@ function propertiesOwned(owner, property) {
 }
 
 
-function findWhoOwns(position) {
+function findWhoOwns(position) { 
     let players = Object.keys(playerStats); 
     for(let i=0; players.length; i++) {
         for(let j=0; j<players[i]['properties'].length; j++) {
@@ -333,9 +344,10 @@ function findWhoOwns(position) {
         }        
     }
 }
+
 utilities = {
-    'Electric-Company': 'Monopoly/ElectricCompany.jpg',
-    'Water-Works':'Monopoly/WaterWorks.jpg' 
+    'Electric-Company': 'C:\Monopoly\ElectricCompany.jpg',
+    'Water-Works':'C:\Monopoly\WaterWorks.jpg' 
 }
 
 function displayOptionsToBuyUtilities (player) {
@@ -741,7 +753,7 @@ function moveTokenToPlace(place) {
             placeNum = i;
             document.querySelector('#' + board[i]).appendChild(playerPiece);
             pieceArr[i].style.top = top + "%";
-            pieceArr[i].style.left = left + "%";
+            pieceArr[i].style.left = left + "%"; 
             playerStats[player]['currPosition'] = i;
             break;
         }
@@ -769,7 +781,7 @@ function jail() {
     if(choice === 'Get Out Of Jail Free Card' && playerStats[playerOrder[count-1]]['getOutOfJailCard']) {
         playerStats[playerOrder[count-1]]['getOutOfJailCard'] = false;
     } else if(choice === 'Pay $50') {
-        recieveMoney(-50);
+        receiveMoney(-50);
     } else {
         playerStats[playerOrder[count-1]]['inJail'] = true;
         for(let i=0; i<playerOrder.length; i++) {
