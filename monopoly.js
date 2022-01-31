@@ -745,7 +745,7 @@ function moveTokenToPlace(place) {
             playerStats[player]['currPosition'] = i;
             break;
         }
-    } there it should work now, let me re committ
+    } 
     if(playerStats[player]['currPosition'] > placeNum && !inJail) {
         distributeGoMoney();
     }
