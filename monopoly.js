@@ -305,15 +305,26 @@ function moveToken(player) {
 function propertiesOwned(owner, property) {
     let num;
     let type;
-    if(property === 'Reading-Railroad' || property === '') 
-    for(let i=0; i<playerStats[owner]['properties'].length; i++) {
-
+    if(property === 'Reading-Railroad' || property === 'Pennsylvania-Railroad' || property === 'B-O-Railroad' || property === 'Short-Line') {
+        type = 'Railroad';
+    } else {
+        type = 'Utility';
     }
+    
+    for(let i=0; i<playerStats[owner]['properties'].length; i++) {
+        if(type === 'Railroad') {
+            if(playerStats[owner]['property'][i] === 'Reading-Railroad' || playerStats[owner]['property'][i] === 'Pennsylvania-Railroad' || playerStats[owner]['property'][i] === 'B-O-Railroad' || playerStats[owner]['property'][i] === 'Short-Line'){
+
+            }
+        }
+    }
+
+    return num;
 }
 
 
 function findWhoOwns(position) {
-    let players = Object.keys(playerStats);
+    let players = Object.keys(playerStats); 
     for(let i=0; players.length; i++) {
         for(let j=0; j<players[i]['properties'].length; j++) {
             if(position === players[i]['properties'][i]) {
@@ -699,7 +710,7 @@ function deductMoneyFromEVERYLOSER(moneyDeduct) {
     for(let i=0; i<playerOrder.length; i++){
         playerStats[playerOrder[i]]['money'] -= moneyDeduct;
     }
-}
+} 
 function receiveMoney(moneyRecieved) {
     playerStats[playerOrder[count-1]]['money'] += moneyRecieved;
 }
@@ -709,9 +720,8 @@ function moveTokenToPlace(place) {
     let player = playerOrder[count-1];
     let playerPiece;
     let placeNum;
-    
-    if(playerStats[player]['currPosition'] > placeNum && !inJail) {
-        distributeGoMoney();        
+    if(playerStats[player]['currPosition'] > placeNum && inJail === false) {
+        distributeGoMoney(); 
     }
     for(let i=0; i<pieceArr.length; i++){
         
