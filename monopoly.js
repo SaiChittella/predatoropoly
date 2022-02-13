@@ -185,8 +185,8 @@ function diceRoll() {
         firstPlay = false;
     } else {    
         alert("DiceRolll")
-        // let sum = sumDice();
-        let sum = 7;
+        let sum = sumDice();
+        // let sum = 7;
         if(count === playerCount) {
             count = 0;
         } 
@@ -201,12 +201,11 @@ function diceRoll() {
             playerStats[playerOrder[count]]["currPosition"] = 0;
             putOnGo();
             distributeGoMoney(playerOrder[count]);
-        } else if (board[playerStats[playerOrder[count]['currPosition']]] === 'Go') {
+        } else if (playerStats[playerOrder[count]['currPosition']] + sum === 'Go') {
             distributeGoMoney(playerOrder[count]);
         }
 
         playerStats[playerOrder[count]]["currPosition"] += sum;
-
 
         alert(playerOrder[count] + ' rolled: ' + sum);
         move(playerOrder[count]);
@@ -336,6 +335,33 @@ function displayOptionsToImprove(player) {
     } else {
 
     }
+}
+
+function expandProperty() {
+    let number = prompt('How many more houses do you want on your property? If you want a hotel, say "hotel"');
+    let player = playerOrder[count-1];
+    if(numebr === 'hotel') {
+        let price = avenueStats[board[playerStats[player]['currPosition']]]['hotel'];
+        playerStats[player]['money'] -= price;
+        playerStats[player]['propertyHouses'][board[playerStats[player]['currPosition']]] = 'hotel';
+    } else {
+        let numOfHousesAlready = findNumberOfHouses();
+        let price = avenueStats[board[playerStats[player]['currPosition']]][numOfHousesAlready + number];
+        playerStats[player]['money'] -= price;
+        playerStats[player]['propertyHouses'][board[playerStats[player]['currPosition']]] = numOfHousesAlready + number;
+        alert('You now have: '  + (number + numOfHousesAlready));
+    }
+
+}
+function findNumberOfHouses(player) {
+    const keys = Object.keys(playerStats[player]['propertyHouses']);
+    let houseCouter = 0;
+    for(let i=0; i<keys.length; i++) {
+        if(keys[i] === board[playerStats[player]['currPosition']]) {
+            houseCounter = playerStats[player]['propertyHouses'][keys[i]];
+        }
+    }
+    return houseCouter;
 }
 function isYourProperty(player) {
     for(let i=0; i<playerStats[player]['properties'].length; i++) {
@@ -1032,7 +1058,6 @@ function buy() {
         // rectangle.innerHTML = ""; 
     }
 }
-safdlkjasdflk 
 
 eachColorAvenue = {
     'brown': ['Mediteranean-Avenue', 'Baltic-Avenue'],
