@@ -1,7 +1,3 @@
-//fake// the array of community and chance cards
-// helloo Session chat isn't working for some reas 
-/*join call I
- did Can you not hear me? nice asmr bro lmaos hello?? ????? hello lmao my dad is vaccumming idk if you can hear me anymore */
 
 chanceCards = [
     "Advance To Boardwalk", "Advance to Go (Collect 200)", "Advance to Illinois Avenue. If you pass Go, collect $200", 
@@ -162,7 +158,6 @@ function displayOptions(numberOfOptionsRemaining){
 
 
 const arr = Object.keys(playerDict);
-
 for(let i=0; i<arr.length; i++) {
     playerStats[arr[i]] = {"money": 1500, "properties": [], "getOutOfJailCard": false, "diceSum": 0, "place": 0, "currPosition": 0, "propertyHouses": {}, 'inJail': false};
 }
@@ -196,7 +191,8 @@ function diceRoll() {
                 playerStats[playerOrder[count]['inJail']] = false;
             }
         }
-        if(playerStats[playerOrder[count]]["currPosition"] + sum > board.length) {
+        
+        if(playerStats[playerOrder[count]]["currPosition"] + sum > board.length - 16) {
             sum -= ((board.length - 1) - playerStats[playerOrder[count]]["currPosition"]);
             playerStats[playerOrder[count]]["currPosition"] = 0;
             putOnGo();
@@ -204,14 +200,13 @@ function diceRoll() {
         } else if (playerStats[playerOrder[count]['currPosition']] + sum === 'Go') {
             distributeGoMoney(playerOrder[count]);
         }
-
-        playerStats[playerOrder[count]]["currPosition"] += sum;
-
+        alert('board length: ' + board.length);
+        playerStats[playerOrder[count]]["currPosition"] += sum; 
+        // alert('Type is: ' + typeof(playerStats[playerOrder[count]]["currPosition"]));
         alert(playerOrder[count] + ' rolled: ' + sum);
         move(playerOrder[count]);
     }
 }
-
 
 function putOnGo(player) {
     moveToken(player);
@@ -219,7 +214,9 @@ function putOnGo(player) {
 
 
 function distributeGoMoney(player) {
+    alert('Player that has passed go: ' + player);
     playerStats[player]["money"] += 200;
+    alert('They have recieved $200');
 }
 
 
@@ -240,10 +237,11 @@ function moveToken(player) {
         } 
     } 
     let yourProperty = false;
+    alert('Position number: ' + playerStats[player]['currPosition']);
     let position = board[playerStats[player]["currPosition"]];
     alert('Position: ' + position);
-    alert('Position number: ' + playerStats[player]['currPosition']);
     let nonBuying = false;
+
     if(position === 'Go-To-Jail') {
         nonBuying = true;
         jail();
@@ -256,15 +254,16 @@ function moveToken(player) {
         nonBuying = true;
     } else if(position === 'Income-Tax' || position === "Luxury-Tax" || position === "Jail-Visit" || position === "Free-Parking" || position === "Go-To-Jail" || position === "Go" || position === 'Electric-Company' || position === 'Water-Works') {
         // taxes 
+        nonBuying = true;
         if(position === "Income-Tax" || position === 'Luxury-Tax') {
             payTaxes(player);
         } else if(position === 'Electric-Company' || position === 'Water-Works') {
             // write logic for utilities
-            nonBuying = true;
+            // nonBuying = true;
             displayOptionsToBuyUtilities(player);
         } 
-        nonBuying = true;
-    } else if(position == "Reading-Railroad" || position === "Pennsylvania-Railroad" || position === "B-O-Railroad" || position === "Short-Line") {
+        
+    } else if(position === "Reading-Railroad" || position === "Pennsylvania-Railroad" || position === "B-O-Railroad" || position === "Short-Line") {
         nonBuying = true;
         if(position === 'Reading-Railroad' || position === 'Pennsylvania-Railroad' || position === 'B-O-Railroad' || position === 'Short-Line') {
             if(!checkIfOwned(player)) {
@@ -327,6 +326,7 @@ function moveToken(player) {
 
     displayPersonStats(player); 
 }
+
 function displayOptionsToImprove(player) {
     let choice = prompt(player + ': Do you wish to improve your property?')
     if(choice.toLowerCase() === 'yes') {
@@ -363,6 +363,7 @@ function findNumberOfHouses(player) {
     }
     return houseCouter;
 }
+
 function isYourProperty(player) {
     for(let i=0; i<playerStats[player]['properties'].length; i++) {
         if(playerStats[player]['currPosition'] === playerStats[player]['properties'][i]) {
@@ -371,6 +372,7 @@ function isYourProperty(player) {
     } 
     return false;
 }
+
 function propertiesOwned(owner, property) {
     let num;
     let type;
@@ -395,7 +397,6 @@ function propertiesOwned(owner, property) {
     return num;
 }
 
-
 function findWhoOwns(position) { 
     let players = Object.keys(playerStats); 
     for(let i=0; players.length; i++) {
@@ -408,8 +409,8 @@ function findWhoOwns(position) {
 }
 
 utilities = {
-    'Electric-Company': 'C:\Monopoly\ElectricCompany.jpg',
-    'Water-Works':'C:\Monopoly\WaterWorks.jpg' 
+    'Electric-Company': "ElectricCompany.jpg",
+    'Water-Works':"WaterWorks.jpg" 
 }
 
 function displayOptionsToBuyUtilities (player) {
@@ -449,6 +450,8 @@ function displayOptionsToBuyUtilities (player) {
  
     document.querySelector("#buyButton").addEventListener("click", buyUtility);
     document.querySelector("#noButton").addEventListener("click", noBuyUtility);
+
+    
 }
 
 function buyUtility() {
@@ -465,68 +468,7 @@ function noBuyUtility() {
 }
 
 function displayOptionsToBuyRailroad(player) {
-    let rectangle = document.querySelector("#rectangle");
-    rectangle.innerHTML = "";
-    rectangle.style.width = "400px";
-    rectangle.style.height = "500px";
-    rectangle.style.position = "absolute";
-    rectangle.style.left = "50%";
-    rectangle.style.top = "45%";
-    rectangle.style.opacity = 1;
-    rectangle.style.border = '3px solid white';
-    rectangle.style.backgroundColor = 'white';
-
-    let image = document.createElement("img");
-    image.src = "https://images-na.ssl-images-amazon.com/images/I/31wkcwha%2BxL._SR600%2C315_PIWhiteStrip%2CBottomLeft%2C0%2C35_SCLZZZZZZZ_FMpng_BG255%2C255%2C255.jpg";
-    image.style.width = "200px";
-    image.style.position = "absolute";
-    image.style.top = 0;
-    image.style.left = "0%";
-
-    rectangle.appendChild(image);
-
-
-    let name = document.createElement("div");
-    name.style.width = "auto";
-    name.style.height = 'auto';
-    name.innerHTML = board[playerStats[player]['currPosition']] + "<br />";
-    name.innerHTML += "Rent:  $25 <br  />"; 
-    name.innerHTML += "If 2 Railroads are owned: 50 <br />";
-    name.innerHTML += "If 3 Railroads are owned: 100 <br />";
-    name.innerHTML += "If 4 Railroads are owned: 200 <br />";
-    name.style.position = 'absolute';
-    name.style.top = '50%';
-    name.style.color = 'black';
-    rectangle.appendChild(name);
-
-   let buyButton = document.createElement("btn");
-    buyButton.id = "buyButton";
-    buyButton.style.height = '100px';
-    buyButton.style.width = "150px";
-    buyButton.style.border = '3px solid white';
-    buyButton.innerHTML = "BUY";
-    buyButton.style.position = "absolute";
-    buyButton.style.top = "70%";
-    buyButton.style.left = "10%";
-    buyButton.style.backgroundColor = "green";
-    buyButton.style.color = "black";
-    rectangle.appendChild(buyButton);
-
-    let noButton = document.createElement("btn");
-    noButton.id = "noButton";
-    noButton.style.height = '100px';
-    noButton.style.width = "150px";
-    noButton.style.border = '3px solid white';
-    noButton.innerHTML = "NO";
-    noButton.style.position = "absolute";
-    noButton.style.top = "70%";
-    noButton.style.left = "50%";
-    noButton.style.backgroundColor = "red";
-    noButton.style.color = "black";
-    rectangle.appendChild(noButton);
- 
-    document.querySelector("#buyButton").addEventListener("click", buyRailroad);
-    document.querySelector("#noButton").addEventListener("click", noBuyRailroad);
+    displayOptionsToBuy(player, true);
 }
 
 function buyRailroad() {
@@ -546,7 +488,7 @@ function notEnoughMoney() {
 }
 
 function noBuyRailroad() {
-    rectangle.style.innerHTML = '';
+    document.querySelector("#rectangle").innerHTML = ' ';
     youDidNotBuy();
 }
 
@@ -569,7 +511,7 @@ function calculateCost(player) {
     }
     return avenueStats[board[playerStats[player]["currPosition"]]]["rent"][playerStats[playerOwned]['propertyHouses'][propertyOwned]];
 }
-function canPayRent(player, cost) {
+function canPayRent(player, cost) { 
     if(playerStats[player]["money"] > cost){
         return true;
     } else {
@@ -615,7 +557,6 @@ function payTaxes(player) {
                 }
             }
         }
-
     } else {
         playerStats[player]["money"] -= avenueStats[board[playerStats[player]['currPosition']]]["price"];
         alert("You have paid " + avenueStats[board[playerStats[player]['currPosition']]]["price"] + "!");
@@ -669,7 +610,7 @@ function displayCommunityChest () {
 
     alert(communityChestCards[randomCard]);
     //enforcing the cards
-    enforecement(chanceCards[randomCard]);0
+    enforecement(chanceCards[randomCard]);
 
     communityChestCards.splice(randomCard, 1);
 }
@@ -688,7 +629,8 @@ function enforecement(THECARDBOI) {
         if(cardEnforcement[THECARDBOI] === 'specialCase1') {
             // 100 per hotel pay for each property loser 
             // 25 per house 
-            let player = playerOrder[count-1];
+            let player = playerOrder[count];
+            alert('Player is: " + player')
             let propertyNames = Object.keys(playerStats[player]['propertyHouses']);
             for(let i=0; i<propertyNames.length; i++) {
                 if(playerStats[player]['propertyHouses'][propertyNames[i]] === 'hotel') {
@@ -713,7 +655,7 @@ function enforecement(THECARDBOI) {
         }
     } else {
         let inJail = false;
-        alert('Checking.....')
+        alert('Checking.....');
         if(THECARDBOI === 'Advance to Boardwalk') {
             moveTokenToPlace('Boardwalk');
         } else if(THECARDBOI === 'Advance to Go. Collect $200') {
@@ -737,8 +679,8 @@ function enforecement(THECARDBOI) {
         } else if(THECARDBOI === 'Go Back Three Spaces') {
             moveTokenToPlace(board[playerStats[count-1]['curPosition'] - 3])
         } else if(THECARDBOI === 'Go To Jail. Go directly to Jail, do not pass Go, do not collect $200') {
-            moveTokenToPlace('Jail-Visit');
             inJail = true;
+            moveTokenToPlace('Jail-Visit');
         } else if(THECARDBOI === 'Speeding fine $15') {
             receiveMoney(-15);
         } else if(THECARDBOI === 'Take a trip to Reading Railroad. If you pass Go, collect $200') {
@@ -932,96 +874,163 @@ avenueColor = {
 
 let btn = document.createElement("button");
 let no = document.createElement("button");
+let rectangle = document.querySelector("#rectangle");
 
-function displayOptionsToBuy(player) {
+function displayOptionsToBuy(player, railroad) {
     // let rectangle = document.createElement("div");
-    let rectangle = document.querySelector("#rectangle");
-    // rectangle.id = "rectangle";
-    let color = document.querySelector("#color");
-    let stats = document.querySelector("#stats");
-    let moreStats = document.querySelector("#moreStats");
-    let avenue = board[playerStats[player]["currPosition"]];
-    
-    rectangle.style.width = "400px";
-    rectangle.style.height = "500px";
-    rectangle.style.position = "absolute";
-    rectangle.style.left = "50%";
-    rectangle.style.top = "45%";
-    rectangle.style.border = "2px solid " + avenueColor[avenue];
-    rectangle.style.backgroundColor = "black";
-    rectangle.style.opacity = 1;
+    // let rectangle = document.querySelector("#rectangle");
+    // rectangle.id = "rectangle";ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh         m    ,,,,,,
+    if(railroad) {
+        rectangle.innerHTML = "";
+        rectangle.style.width = "400px";
+        rectangle.style.height = "500px";
+        rectangle.style.position = "absolute";
+        rectangle.style.left = "50%";
+        rectangle.style.top = "45%";
+        rectangle.style.opacity = 1;
+        rectangle.style.border = '3px solid white';
+        rectangle.style.backgroundColor = 'white';
 
-    alert("Avenue For Color: " + avenue);
-    color.style.backgroundColor = avenueColor[avenue];
-    color.style.height = "100px";
-    color.style.width = "400px";
-    color.style.position = "absolute";
-    color.style.top =  "0%";
-    color.style.color = "white";
-    color.innerHTML = avenue;
-    color.style.fontSize = "20px";
-    rectangle.appendChild(color);
-    
+        let image = document.createElement("img");
+        image.src = "https://images-na.ssl-images-amazon.com/images/I/31wkcwha%2BxL._SR600%2C315_PIWhiteStrip%2CBottomLeft%2C0%2C35_SCLZZZZZZZ_FMpng_BG255%2C255%2C255.jpg";
+        image.style.width = "200px";
+        image.style.position = "absolute";
+        image.style.top = 0;
+        image.style.left = "0%";
 
-    stats.style.color = "white";
-    stats.style.position = "absolute";
-    stats.style.top = "20%";
-    
+        rectangle.appendChild(image);
 
-    stats.innerHTML = "Rent  $" + avenueStats[avenue]['rent']["0"];
-    stats.style.left = "35%";
-    stats.style.fontSize = "30px";
-    
-    rectangle.appendChild(stats);
-    
-    moreStats.style.color = "white";
-    moreStats.style.position = "absolute"; 
-    moreStats.style.marginTop = "100px";
-    moreStats.style.left = "25%";
-    moreStats.style.top = "20%";
-    moreStats.innerHTML = "";    
 
-    for(let i=1; i<=5; i++) {
-        if(i === 5) {
-            moreStats.innerHTML += "With Hotel: " + avenueStats[avenue]["rent"]["hotel"] + " <br  />";
-            continue;
+        let name = document.createElement("div");
+        name.style.width = "auto";
+        name.style.height = 'auto';
+        name.innerHTML = board[playerStats[player]['currPosition']] + "<br />";
+        name.innerHTML += "Rent:  $25 <br  />"; 
+        name.innerHTML += "If 2 Railroads are owned: 50 <br />";
+        name.innerHTML += "If 3 Railroads are owned: 100 <br />";
+        name.innerHTML += "If 4 Railroads are owned: 200 <br />";
+        name.style.position = 'absolute';
+        name.style.top = '50%';
+        name.style.color = 'black';
+        rectangle.appendChild(name);
+
+        let buyButton = document.createElement("btn");
+        buyButton.id = "buyButton";
+        buyButton.style.height = '100px';
+        buyButton.style.width = "150px";
+        buyButton.style.border = '3px solid white';
+        buyButton.innerHTML = "BUY";
+        buyButton.style.position = "absolute";
+        buyButton.style.top = "70%";
+        buyButton.style.left = "10%";
+        buyButton.style.backgroundColor = "green";
+        buyButton.style.color = "black";
+        rectangle.appendChild(buyButton);
+
+        let noButton = document.createElement("btn");
+        noButton.id = "noButton";
+        noButton.style.height = '100px';
+        noButton.style.width = "150px";
+        noButton.style.border = '3px solid white';
+        noButton.innerHTML = "NO";
+        noButton.style.position = "absolute";
+        noButton.style.top = "70%";
+        noButton.style.left = "50%";
+        noButton.style.backgroundColor = "red";
+        noButton.style.color = "black";
+        rectangle.appendChild(noButton);
+    
+        document.querySelector("#buyButton").addEventListener("click", buyRailroad);
+        document.querySelector("#noButton").addEventListener("click", noBuyRailroad);
+    } else {
+        let color = document.querySelector("#color");
+        let stats = document.querySelector("#stats");
+        let moreStats = document.querySelector("#moreStats");
+        let avenue = board[playerStats[player]["currPosition"]];
+        
+        rectangle.style.width = "400px";
+        rectangle.style.height = "500px";
+        rectangle.style.position = "absolute";
+        rectangle.style.left = "50%";
+        rectangle.style.top = "45%";
+        rectangle.style.border = "2px solid " + avenueColor[avenue];
+        rectangle.style.backgroundColor = "black";
+        rectangle.style.opacity = 1;
+    
+        alert("Avenue For Color: " + avenue);
+        color.style.backgroundColor = avenueColor[avenue];
+        color.style.height = "100px";
+        color.style.width = "400px";
+        color.style.position = "absolute";
+        color.style.top =  "0%";
+        color.style.color = "white";
+        color.innerHTML = avenue;
+        color.style.fontSize = "20px";
+        rectangle.appendChild(color);
+        
+    
+        stats.style.color = "white";
+        stats.style.position = "absolute";
+        stats.style.top = "20%";
+        
+    
+        stats.innerHTML = "Rent  $" + avenueStats[avenue]['rent']["0"];
+        stats.style.left = "35%";
+        stats.style.fontSize = "30px";
+        
+        rectangle.appendChild(stats);
+        
+        moreStats.style.color = "white";
+        moreStats.style.position = "absolute"; 
+        moreStats.style.marginTop = "100px";
+        moreStats.style.left = "25%";
+        moreStats.style.top = "20%";
+        moreStats.innerHTML = "";    
+    
+        for(let i=1; i<=5; i++) {
+            if(i === 5) {
+                moreStats.innerHTML += "With Hotel: " + avenueStats[avenue]["rent"]["hotel"] + " <br  />";
+                continue;
+            }
+            moreStats.innerHTML += 'With ' + i + " Houses: " + avenueStats[avenue]["rent"][i] + " <br  />";
         }
-        moreStats.innerHTML += 'With ' + i + " Houses: " + avenueStats[avenue]["rent"][i] + " <br  />";
+    
+        moreStats.style.fontSize = "20px";
+    
+        moreStats.innerHTML += "Price per house/hotel " + avenueStats[avenue]["pricePerHouse"];
+    
+        rectangle.appendChild(moreStats);   
+    
+        btn.id = "buyButton";
+        btn.style.height = '100px';
+        btn.style.width = "150px";
+        btn.style.border = '3px solid white';
+        btn.innerHTML = "BUY";
+        btn.style.position = "absolute";
+        btn.style.top = "70%";
+        btn.style.left = "10%";
+        btn.style.backgroundColor = "green";
+        btn.style.color = "black";
+        rectangle.appendChild(btn);
+    
+        no.id = "noButton";
+        no.style.height = '100px';
+        no.style.width = "150px";
+        no.style.border = '3px solid white';
+        no.innerHTML = "NO";
+        no.style.position = "absolute";
+        no.style.top = "70%";
+        no.style.left = "50%";
+        no.style.backgroundColor = "red";
+        no.style.color = "black";
+        rectangle.appendChild(no);
+    
+    
+        document.querySelector("#buyButton").addEventListener("click", buy);
+        document.querySelector("#noButton").addEventListener("click", noBuy);
     }
+    
 
-    moreStats.style.fontSize = "20px";
-
-    moreStats.innerHTML += "Price per house/hotel " + avenueStats[avenue]["pricePerHouse"];
-
-    rectangle.appendChild(moreStats);   
-
-    btn.id = "buyButton";
-    btn.style.height = '100px';
-    btn.style.width = "150px";
-    btn.style.border = '3px solid white';
-    btn.innerHTML = "BUY";
-    btn.style.position = "absolute";
-    btn.style.top = "70%";
-    btn.style.left = "10%";
-    btn.style.backgroundColor = "green";
-    btn.style.color = "black";
-    rectangle.appendChild(btn);
-
-    no.id = "noButton";
-    no.style.height = '100px';
-    no.style.width = "150px";
-    no.style.border = '3px solid white';
-    no.innerHTML = "NO";
-    no.style.position = "absolute";
-    no.style.top = "70%";
-    no.style.left = "50%";
-    no.style.backgroundColor = "red";
-    no.style.color = "black";
-    rectangle.appendChild(no);
-
-
-    document.querySelector("#buyButton").addEventListener("click", buy);
-    document.querySelector("#noButton").addEventListener("click", noBuy);
 }
 
 
