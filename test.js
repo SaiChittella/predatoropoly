@@ -28,3 +28,10 @@ I starte
 
 
 */
+
+    // alert("Hello");
+    // let image = document.createElement('img');
+    // image.src = "ElectricCompany.jpg";
+    // image.style.width = "100px";
+    // image.style.height = "100px";
+    // image.style.border = '10px solid orange';

@@ -1,12 +1,12 @@
  OLD BUGS ********* These are all the Bugs to Fix:
-    1) On Second Row, the divs are not on the "left" side, so special case required to put the piece below instead of above.
-    3) Player Stats keeps on appending, we need to delete previous and then appned.
-    4) Chance and Community Chests need to be enforced.
-    6) Flip piece as it traverses the board.
-    7) When pressing no to buy, and next player lands on that, card not showing.
+    1) On Second Row, the divs are not on the "left" side, so special case required to put the piece below instead of above. (DONE)
+    3) Player Stats keeps on appending, we need to delete previous and then appned. (DONE)
+    4) Chance and Community Chests need to be enforced. (DONE)
+    6) Flip piece as it traverses the board. (DONE)
+    7) When pressing no to buy, and next player lands on that, card not showing. (DONE)
     8) 
 
-1) Display where starting positoin, and then sum, and then the ending position to ensure correct landing.
+1) Display where starting positoin, and then sum, and then the ending position to ensure correct landing. (DONE)
 
 
     1) Find out every single community chest and chance cards and store then into an array, that will get by random, and when chosen will remove it from the array. When we run out of cards, we will "shuffle" 
@@ -35,11 +35,11 @@
     
     11) when passing go, collect 200 dollars and add it to your broke bank. (DONE)
     
-    12) If you about to go bankrupt, you must display options of what places to sell. 
+    12) If you about to go bankrupt, you must display options of what places to sell. (DONE) 
     
-    13) If you go bankrupt, YOU LOSE LOSERRR. TAKE THAT L
+    13) If you go bankrupt, YOU LOSE LOSERRR. TAKE THAT L (DONE)
     
-    14) if you land on someone elses property, you pay their money. Following the house and hotel rules. 
+    14) if you land on someone elses property, you pay their money. Following the house and hotel rules.  (DONE)
     
     15) If you purchase a land, ask the user how many houses and if so, a hotel, they want on their land, and charge them accordingly. (DONE)
     
@@ -51,35 +51,38 @@
 
     BUGS TO REMEMBER!!!!!!!!!!!!!!!!
     1) B&O Railroad is wrong FIX IT
-    2) Chance and Community Chests images need to be on the rectangles FIX ITTTT
+    2) Chance and Community Chests images need to be on the rectangles FIX ITTTT (DONE)
     3) Move Monopoly man down FIX ITTT ************************
 
 NEW BUGS 1/28/2022 ONWARD ---->
-    1) GO TO JAILL IS BROKEN (DONE)
+    1) GO TO JAILL IS BROKEN (DONE) 
     2) MONEY ISN'T BEING DISTRIBUTED FOR THE PASS GO. (DONE)
-    4) ENFORCEMENT IS NOT WORKING. 
+    4) ENFORCEMENT IS NOT WORKING. (DONE)
     5) AFTER CLICKING NO FOR AVENUE, THE NEXT CARD DOESN'T SHOW UP. (DONE)
-    6) PAY EVERYONE IS NOT WORKING, MEANING THAT NO ONE IS BEING PAID FOR THE CHANCE AND COMMUNITY CHESTS. 
-    7) FIX EVERYTHING RELATED TO THE COMMUNITY AND CHANCE CARDS ENFORCEMENTS
+    6) PAY EVERYONE IS NOT WORKING, MEANING THAT NO ONE IS BEING PAID FOR THE CHANCE AND COMMUNITY CHESTS. (DONE) 
+    7) FIX EVERYTHING RELATED TO THE COMMUNITY AND CHANCE CARDS ENFORCEMENTS. (DONE)
     8) WHEN LANDING ON SOMEONE ELSE'S RAILROAD PROPERTY, NOT PAYING THE RENT. (DONE) 
-    9) When re do is supposed to happen if dice roll is same when deciding redo it leas to infinte redo
+    9) When re do is supposed to happen if dice roll is same when deciding redo it leas to infinte redo (DONE)
     10) Certain images showing up as pdf symbol (DONE)
-    11) ADVANCE TO NEAREST RAILROAD ISN'T WORKING.
+    11) ADVANCE TO NEAREST RAILROAD ISN'T WORKING. (DONE)
     12) RAILROAD CARD ISN'T WORKING. RENT ISN'T showing (DONE)
-    13) WHEN THERE IS A DOUBLE FOR THE INTIAL DICE ROLL, THE NAMES ARE BEING APPENDED TWICE IN THE END INSTEAD OF ONLY ONCE.
+    13) WHEN THERE IS A DOUBLE FOR THE INTIAL DICE ROLL, THE NAMES ARE BEING APPENDED TWICE IN THE END INSTEAD OF ONLY ONCE. (DONE)
     14) UTILITIES REQUIRE SPECIAL BUYING AND PURCHASING REQUIREMENTS (DONE)
-    15) WHEN LANDING ON UTILITY, MUST FOLLOW RULE TO PAY.
-    16) WHEN LANDING ON RAILROAD, MUST FOLLOW RULE TO PAY AS WELL.
+    15) WHEN LANDING ON UTILITY, MUST FOLLOW RULE TO PAY. (DONE)
+    16) WHEN LANDING ON RAILROAD, MUST FOLLOW RULE TO PAY AS WELL. (DONE)
     17) AFTER BUYING/NOT BUYING RAILROAD, THE OBJECT BECOMES NULL. (DONE)
     18) YOU NEED TO OWN ALL OF ONE COLOR TO BE ABLE TO PUT HOTELS ON THEM. (DONE)
-    19) WHEN LANDING ON YOUR OWN PROPERTY, DISPLAY THE OPTION TO ADD MORE HOUSES
-    20) WRONG PERSON IS ASKED TO SELL THEIR PROPERTIES WHEN GOING BANKRUPT
-    21) PASSING GO DOESN'T MAKE PLAYERS COLLECT 200. 
-    22) CURRPOSITION IS UNDEFINED WHEN PASSING CERTAIN PLACES. joiiiiiinnn it nice asmr bro why are you playing clashhh???hello?????????????? can yiooooooooouuuuuuuuun ehhhhhhhhhhhhhhhhhhh`    ()
-    23) ELECTRIC COMPANY AND WATER WORKS IMAGES ARE NOT WORKING FOR THE CARDS. (DONE)
+    19) WHEN LANDING ON YOUR OWN PROPERTY, DISPLAY THE OPTION TO ADD MORE HOUSES (DONE)
+    20) WRONG PERSON IS ASKED TO SELL THEIR PROPERTIES WHEN GOING BANKRUPT (DONE)
+    21) PASSING GO DOESN'T MAKE PLAYERS COLLECT 200. (DONE) MASSSIVE WWWWWWWWW
+    22) CURRPOSITION IS UNDEFINED WHEN PASSING CERTAIN PLACES. (DONE)
+    23) ELECTRIC COMPANY AND WATER WORKS IMAGES ARE NOT WORKING FOR THE CARDS. 
     24) AFTER RAILROAD, THE CARD AFTER IS UNCLICKABLE. (DONE) 
-    25) Community chest is not giving card.
+    25) Community chest is not giving card. (RARE)
+    26) NEAREST UTILITY NOT WORKING.
 
+If you land on utility and the man owns 1 than you pay 4 times the dice roll number if he owns 2 you pay 10 times. (DONE)
+If you land on railroad, and the man owns 1, then you pay 25, if they own 2, you pay 50, they own 3, 100, and 4 is 200. (DONE)
 
 
 
