@@ -1,18 +1,4 @@
 
-chanceCards = [
-    "Advance To Boardwalk", "Advance to Go (Collect 200)", "Advance to Illinois Avenue. If you pass Go, collect $200", 
-    "Advance to St. Charles Place. If you pass Go, collect $200", "Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled",
-    "Advance piece to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.", 
-    "Bank pays you dividend of $50", "Get Out of Jail Free", "Go Back 3 Spaces", "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200", "Make general repairs on all your property. For each house pay $25. For each hotel pay $100",
-    "Speeding fine $15", "Take a trip to Reading Railroad. If you pass Go, collect $200", "You have been elected Chairman of the Board. Pay each player $50", "Your building loan matures. Collect $150"
-]
-
-communityChestCards = [
-    "Advance to Go (Collect $200)", "Bank error in your favor. Collect $200", "Bank error in your favor. Collect $200", "From sale of stock you get $50", "Get Out of Jail Free", "Go to Jail. Go directly to jail, do not pass Go, do not collect $200",
-    "Holiday fund matures. Receive $100", "Income tax refund. Collect $20", "It is your birthday. Collect $10 from every player", "Life insurance matures. Collect $100", "Pay hospital fees of $100", "Pay school fees of $50", 
-    "Receive $25 consultancy fee", "You are assessed for street repair. $40 per house. $115 per hotel", "You have won second prize in a beauty contest. Collect $10", "You inherit $100"
-]
-
 const board = [
     "Go", "Mediteranean-Avenue", "communityChest1", "Baltic-Avenue", "Income-Tax", "Reading-Railroad", "Oriental-Avenue", "Chance-row-1", "Vermont-Avenue", 
     "Fat-Connecticut-Avenue", "Jail-Visit", "St-Charles-Place", "Electric-Company", "States-Avenue", "Virgina-Avenue", "Pennsylvania-Railroad", "St-James-Place", "Community-chest-row-2",
@@ -159,7 +145,7 @@ function displayOptions(numberOfOptionsRemaining){
 
 const arr = Object.keys(playerDict);
 for(let i=0; i<arr.length; i++) {
-    playerStats[arr[i]] = {"money": 1500, "properties": [], "getOutOfJailCard": false, "diceSum": 0, "place": 0, "currPosition": 0, "propertyHouses": {}, 'inJail': false};
+    playerStats[arr[i]] = {"money": 1500, "properties": [], "getOutOfJailCard": false, "diceSum": 0,  "currPosition": 0, "place": 0, "propertyHouses": {}, 'inJail': false};
 }
 
 const playerStatsArr = Object.keys(playerStats);
@@ -172,16 +158,15 @@ const playerOrder = []
 
 
 let count = 0;
-
+let sum;
 function diceRoll() {
     let jailCount = 0;
     if(firstPlay){
         determineWhoGoesFirst();
-        firstPlay = false;
     } else {    
         alert("DiceRolll")
-        let sum = sumDice();
-        // let sum = 7;
+        // sum = sumDice();
+        let sum = 12;
         if(count === playerCount) {
             count = 0;
         } 
@@ -191,16 +176,22 @@ function diceRoll() {
                 playerStats[playerOrder[count]['inJail']] = false;
             }
         }
-        
-        if(playerStats[playerOrder[count]]["currPosition"] + sum > board.length - 16) {
+        alert('New Sum: ' + (playerStats[playerOrder[count]]["currPosition"] + sum))
+        if((playerStats[playerOrder[count]]["currPosition"] + sum) > (board.length - 1)) {
+            alert('Sum is greater than board length...')
+            alert('Previous SUm: ' + sum);
             sum -= ((board.length - 1) - playerStats[playerOrder[count]]["currPosition"]);
+            alert('Sum after advanced equation: ' + sum)
             playerStats[playerOrder[count]]["currPosition"] = 0;
-            putOnGo();
+            playerStats[playerOrder[count]]["currPosition"] += sum;
+            alert(playerStats[playerOrder[count]]["currPosition"]); 
+            putOnGo(playerOrder[count]);
             distributeGoMoney(playerOrder[count]);
         } else if (playerStats[playerOrder[count]['currPosition']] + sum === 'Go') {
+            playerStats[playerOrder[count]]["currPosition"] += sum; 
             distributeGoMoney(playerOrder[count]);
         }
-        alert('board length: ' + board.length);
+        // alert('board length: ' + board.length);
         playerStats[playerOrder[count]]["currPosition"] += sum; 
         // alert('Type is: ' + typeof(playerStats[playerOrder[count]]["currPosition"]));
         alert(playerOrder[count] + ' rolled: ' + sum);
@@ -221,7 +212,7 @@ function distributeGoMoney(player) {
 
 
 function moveToken(player) {
-    const colors = ["orange", "red", 'yellow', "blue", "green", "purple", "brown", "black"]
+    const colors = ["orange", "red", 'yellow', "blue", "green", "purple", "brown", "black"];
     for(let i=0; i<pieceArr.length; i++) {
         let left = -3900;
         let top = 50;
@@ -237,10 +228,12 @@ function moveToken(player) {
         } 
     } 
     let yourProperty = false;
-    alert('Position number: ' + playerStats[player]['currPosition']);
+    // alert('Position number: ' + playerStats[player]['currPosition']);
     let position = board[playerStats[player]["currPosition"]];
-    alert('Position: ' + position);
+    // alert('Position: ' + position);
     let nonBuying = false;
+
+    
 
     if(position === 'Go-To-Jail') {
         nonBuying = true;
@@ -260,14 +253,8 @@ function moveToken(player) {
         } else if(position === 'Electric-Company' || position === 'Water-Works') {
             // write logic for utilities
             // nonBuying = true;
-            displayOptionsToBuyUtilities(player);
-        } 
-        
-    } else if(position === "Reading-Railroad" || position === "Pennsylvania-Railroad" || position === "B-O-Railroad" || position === "Short-Line") {
-        nonBuying = true;
-        if(position === 'Reading-Railroad' || position === 'Pennsylvania-Railroad' || position === 'B-O-Railroad' || position === 'Short-Line') {
             if(!checkIfOwned(player)) {
-                displayOptionsToBuyRailroad(player);
+                displayOptionsToBuyUtilities(player);
             } else {
                 let costOfProperty;
                 let owner = findWhoOwns(board[playerStats[player]['currPosition']]);
@@ -291,9 +278,47 @@ function moveToken(player) {
                         }
                     }
                 }
+            }        
+        } 
+        
+    } else if(position === "Reading-Railroad" || position === "Pennsylvania-Railroad" || position === "B-O-Railroad" || position === "Short-Line") {
+        nonBuying = true;
+        
+        if(!checkIfOwned(player)) {
+            displayOptionsToBuyRailroad(player);
+        } else {
+            let costOfProperty;
+            let owner = findWhoOwns(board[playerStats[player]['currPosition']]);
+            let numOwned = propertiesOwned(owner, board[playerStats[player]['currPosition']]);
+    
+            if(numOwned === 1) {
+                costOfProperty = 25;
+            } else if(numOwned === 2) {
+                costOfProperty = 50;
+            } else if(numOwned === 3) {
+                costOfProperty = 100;
+            } else {
+                costOfProperty = 200;
+            }
+
+            alert("You Have to Pay: " + costOfProperty);
+            if(canPayRent(player, costOfProperty)) {
+                payRent(player, costOfProperty);
+            } else {
+                if(!displayOptionsToSell(player)) {
+                    displayLoss(player);
+                } else {
+                    while(!canAfford(playerStats[player]["money"], player)) { 
+                        if(!displayOptionsToSell(player)) {
+                            displayLoss(player);
+                        }
+                    }
+                }
             }
         }
+        
     }
+
     // check if its your property
     if(isYourProperty(player)) {
         yourProperty = true;
@@ -301,7 +326,7 @@ function moveToken(player) {
     } else {
         if(!nonBuying) {
             if(!checkIfOwned(player)) {
-                displayOptionsToBuy(player);
+                displayOptionsToBuy(player, 'normal');
             } else{ 
                 let costOfProperty = calculateCost(player);
                 alert("You Have to Pay: " + costOfProperty)
@@ -322,7 +347,7 @@ function moveToken(player) {
             }
         }
     }
-    
+
 
     displayPersonStats(player); 
 }
@@ -333,7 +358,7 @@ function displayOptionsToImprove(player) {
         alert('You have chosen Yes');
         expandProperty(); 
     } else {
-
+        alert('You have Chosen No.')
     }
 }
 
@@ -409,53 +434,19 @@ function findWhoOwns(position) {
 }
 
 utilities = {
-    'Electric-Company': "ElectricCompany.jpg",
-    'Water-Works':"WaterWorks.jpg" 
+    'Electric-Company': "C:\Monopoly\ElectricCompany.jpg",
+    'Water-Works': "C:\Monopoly\WaterWorks.jpg" 
 }
 
 function displayOptionsToBuyUtilities (player) {
-    let image = document.createElement("img");
-    image.src = utilities[board[playerStats[player]['currPosition']]];
-    image.style.width = "200px";
-    image.style.position = "absolute";
-    image.style.top = 0;
-    image.style.left = "0%";
-
-
-    let buyButton = document.createElement("btn");
-    buyButton.id = "buyButton";
-    buyButton.style.height = '100px';
-    buyButton.style.width = "150px";
-    buyButton.style.border = '3px solid white';
-    buyButton.innerHTML = "BUY";
-    buyButton.style.position = "absolute";
-    buyButton.style.top = "70%";
-    buyButton.style.left = "10%";
-    buyButton.style.backgroundColor = "green";
-    buyButton.style.color = "black";
-    rectangle.appendChild(buyButton);
-
-    let noButton = document.createElement("btn");
-    noButton.id = "noButton";
-    noButton.style.height = '100px';
-    noButton.style.width = "150px";
-    noButton.style.border = '3px solid white';
-    noButton.innerHTML = "NO";
-    noButton.style.position = "absolute";
-    noButton.style.top = "70%";
-    noButton.style.left = "50%";
-    noButton.style.backgroundColor = "red";
-    noButton.style.color = "black";
-    rectangle.appendChild(noButton);
- 
-    document.querySelector("#buyButton").addEventListener("click", buyUtility);
-    document.querySelector("#noButton").addEventListener("click", noBuyUtility);
-
-    
+    displayOptionsToBuy(player, 'utility');
 }
 
 function buyUtility() {
-    if(playerStats[playerOrder[count-1]['money']] >= 150) {
+    alert('Player is: ' + playerOrder[count-1]); 
+    alert('Player money: ' + playerStats[playerOrder[count-1]]['money']);
+    
+    if(playerStats[playerOrder[count-1]]['money'] >= 150) {
         playerStats[playerOrder[count - 1]]['money'] -= 150;
         playerStats[playerOrder[count - 1]]['properties'].push(board[playerStats[playerOrder[count - 1]]['currPosition']]);
     } else {
@@ -468,7 +459,7 @@ function noBuyUtility() {
 }
 
 function displayOptionsToBuyRailroad(player) {
-    displayOptionsToBuy(player, true);
+    displayOptionsToBuy(player, 'railroad');
 }
 
 function buyRailroad() {
@@ -481,6 +472,8 @@ function buyRailroad() {
     } else {
         notEnoughMoney();
     }
+
+    document.querySelector('#rectangle').innerHTML = ' ';
 }
 
 function notEnoughMoney() {
@@ -488,7 +481,7 @@ function notEnoughMoney() {
 }
 
 function noBuyRailroad() {
-    document.querySelector("#rectangle").innerHTML = ' ';
+    document.querySelector('#rectangle').innerHTML = ' ';
     youDidNotBuy();
 }
 
@@ -614,7 +607,7 @@ function displayCommunityChest () {
 
     communityChestCards.splice(randomCard, 1);
 }
- function displayChance() {
+function displayChance() {
     let randomCard = Math.floor(Math.random() * chanceCards.length) + 1;
     alert(chanceCards[randomCard]);
     // enforcing the cards
@@ -624,7 +617,25 @@ function displayCommunityChest () {
 
 }
 
+
+chanceCards = [
+    "Advance To Boardwalk", "Advance to Go (Collect 200)", "Advance to Illinois Avenue. If you pass Go, collect $200", 
+    "Advance to St. Charles Place. If you pass Go, collect $200", "Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled",
+    "Advance piece to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.", 
+    "Bank pays you dividend of $50", "Get Out of Jail Free", "Go Back 3 Spaces", "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200", "Make general repairs on all your property. For each house pay $25. For each hotel pay $100",
+    "Speeding fine $15", "Take a trip to Reading Railroad. If you pass Go, collect $200", "You have been elected Chairman of the Board. Pay each player $50", "Your building loan matures. Collect $150"
+]
+
+communityChestCards = [
+    "Advance to Go (Collect $200)", "Bank error in your favor. Collect $200", "Bank error in your favor. Collect $200", "From sale of stock you get $50", "Get Out of Jail Free", "Go to Jail. Go directly to jail, do not pass Go, do not collect $200",
+    "Holiday fund matures. Receive $100", "Income tax refund. Collect $20", "It is your birthday. Collect $10 from every player", "Life insurance matures. Collect $100", "Pay hospital fees of $100", "Pay school fees of $50", 
+    "Receive $25 consultancy fee", "You are assessed for street repair. $40 per house. $115 per hotel", "You have won second prize in a beauty contest. Collect $10", "You inherit $100"
+]
+
+let inJail = false;
+
 function enforecement(THECARDBOI) {
+    alert('The Card is: ' + THECARDBOI);
     if(cardEnforcement[THECARDBOI] === 'specialCase1' || cardEnforcement[THECARDBOI] === 'specialCase2') {
         if(cardEnforcement[THECARDBOI] === 'specialCase1') {
             // 100 per hotel pay for each property loser 
@@ -653,32 +664,43 @@ function enforecement(THECARDBOI) {
                 }
             }
         }
+
     } else {
-        let inJail = false;
         alert('Checking.....');
-        if(THECARDBOI === 'Advance to Boardwalk') {
+        let player = playerOrder[count];
+        if(THECARDBOI === 'Advance To Boardwalk') {
+            alert('Calling Move To Boardwalk.')
             moveTokenToPlace('Boardwalk');
-        } else if(THECARDBOI === 'Advance to Go. Collect $200') {
+        } else if(THECARDBOI === 'Advance to Go (Collect 200)') {
             // move piece to Go. Add 200
+            alert('Calling Move To Go.')
             moveTokenToPlace('Go');
             receiveMoney(200);
-        } else if(THECARDBOI === 'Advance to Illinois Avenue') {
+        } else if(THECARDBOI === 'Advance to Illinois Avenue. If you pass Go, collect $200') {
             // moveToken
+            alert('Calling Move To Illinois Avenue.')
+
             moveTokenToPlace('Illinois-Avenue');
         } else if(THECARDBOI ===  'Advance to St. Charles Place. If you pass Go, collect $200'){
             // move 
+            alert('Calling Move To St. Charles Place.')
+
             moveTokenToPlace('St-Charles-Place');
-        } else if(THECARDBOI === 'Advance to the nearest Railroad. If unowned, you buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled') {
+        } else if(THECARDBOI === 'Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled') {
+            alert('Calling Move To nearest Railroad.')
             let nearestRailroad = findNearestRailroad();
             alert('Nearest railroad is: ' + nearestRailroad); 
             moveTokenToPlace(nearestRailroad);
-        } else if(THECARDBOI === 'Bank pays you divident of $50') {
+        } else if(THECARDBOI === 'Bank pays you dividend of $50') {
+            alert('Calling Pay Divident of 50.');
             receiveMoney(50);
-        } else if(THECARDBOI === 'Get Out Of Jail Free') {
-            playerStats[count-1]['getOutOfJailCard'] = true;
-        } else if(THECARDBOI === 'Go Back Three Spaces') {
-            moveTokenToPlace(board[playerStats[count-1]['curPosition'] - 3])
-        } else if(THECARDBOI === 'Go To Jail. Go directly to Jail, do not pass Go, do not collect $200') {
+        } else if(THECARDBOI === 'Get Out of Jail Free') {
+            alert('Get Out Of Jail Free.')
+            playerStats[player]['getOutOfJailCard'] = true;
+        } else if(THECARDBOI === 'Go Back 3 Spaces') {
+            alert('Go Back Three Spaces called.')
+            moveTokenToPlace(board[playerStats[player]['currPosition'] - 3]);
+        } else if(THECARDBOI === 'Go to Jail. Go directly to Jail, do not pass Go, do not collect $200') {
             inJail = true;
             moveTokenToPlace('Jail-Visit');
         } else if(THECARDBOI === 'Speeding fine $15') {
@@ -696,12 +718,12 @@ function enforecement(THECARDBOI) {
             receiveMoney(50);
         } else if(THECARDBOI === 'Holiday fund matures. Receive $100') {
             receiveMoney(100);
-        } else if(THECARDBOI === 'Income tax refund') {
+        } else if(THECARDBOI === 'Income tax refund. Collect $20') {
             receiveMoney(100);
         } else if(THECARDBOI === 'It is your birthday. Collect $10 from every player') {
             receiveMoney(10 * playerCount);
             deductMoneyFromEVERYLOSER(10);
-        } else if(THECARDBOI === 'Life insurance matures'){
+        } else if(THECARDBOI === 'Life insurance matures. Collect $100'){
             receiveMoney(100);
         } else if(THECARDBOI === 'Pay hospital fees of $100'){
             receiveMoney(-100);
@@ -737,11 +759,10 @@ function receiveMoney(moneyRecieved) {
 
 function moveTokenToPlace(place) {
     // get player piece    
-    
-    let player = playerOrder[count-1];
+    let player = playerOrder[count];
     let playerPiece;
     let placeNum;
-    alert('Player: ' + player) 
+    alert('Player: ' + player)      
     
     for(let i=0; i<pieceArr.length; i++){
         if(pieceArr[i].src === ("file:///C:/Monopoly/" + monopolyPieces[playerDict[player]])) {
@@ -749,6 +770,7 @@ function moveTokenToPlace(place) {
             break;
         }
     } 
+    // playerPiece = ("file:///C:/Monopoly/" + monopolyPieces[playerDict[player]]);
     
     alert('Player piece: ' + playerPiece)
     for(let i=0; i<board.length; i++) {
@@ -758,14 +780,15 @@ function moveTokenToPlace(place) {
         if(board[i] === place){
             alert('Player is: ' + player);
             alert('Current Position number: ' + playerStats[player]['currPosition']);
-            alert("You are going to: " + board[playerStats[player]["currPosition"]]);
-            if(playerStats[player]["currPosition"] > 10 && playerStats[player]["currPosition"] < 20) {
+            alert("You are going to: " + board[i]);
+            if(board[i] > 10 && board[i] < 20) {
                 left = -100;
+                top = -10;
             }
             placeNum = i;
             document.querySelector('#' + board[i]).appendChild(playerPiece);
-            pieceArr[i].style.top = top + "%";
-            pieceArr[i].style.left = left + "%"; 
+            playerPiece.style.top = top + "%";
+            playerPiece.style.left = left + "%"; 
             playerStats[player]['currPosition'] = i;
             break;
         }
@@ -810,7 +833,7 @@ function putTokenOnJail(player) {
     
     for(let i=0; i<pieceArr.length; i++){
         if(pieceArr[i].src === ("file:///C:/Monopoly/" + monopolyPieces[playerDict[player]])) {
-            document.querySelector('#Jail-Visit').appendChild(pieceArr[i].src);
+            document.querySelector('#Jail-Visit').appendChild(pieceArr[i]);
             break;
         }
     } 
@@ -818,7 +841,7 @@ function putTokenOnJail(player) {
 }
 
 function findNearestRailroad() {
-    let player = playerOrder[count-1];
+    let player = playerOrder[count];
     let position = playerStats[player]['currPosition'];
     let distance = 1000;
     
@@ -869,18 +892,27 @@ avenueColor = {
     "North-Carolina-Avenue": "green",
     "Pennsylvania-Avenue": "green",
     "Park-Place": "darkblue",
-    "Boardwalk": "darkblue"
+    "Boardwalk": "darkblue",
+    'Reading-Railroad': 'white',
+    'Pennsylvania-Railroad': 'white',
+    'B-O-Railroad': 'white',
+    'Short-Line': 'white',
 }
 
 let btn = document.createElement("button");
 let no = document.createElement("button");
 let rectangle = document.querySelector("#rectangle");
+let color = document.querySelector("#color");
+let moreStats = document.querySelector("#moreStats");
 
-function displayOptionsToBuy(player, railroad) {
-    // let rectangle = document.createElement("div");
+
+function displayOptionsToBuy(player, type) {
+    let avenue = board[playerStats[player]["currPosition"]];
+
+    // let rectange = document.createElement("div");
     // let rectangle = document.querySelector("#rectangle");
     // rectangle.id = "rectangle";ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh         m    ,,,,,,
-    if(railroad) {
+    if(type === 'railroad') {
         rectangle.innerHTML = "";
         rectangle.style.width = "400px";
         rectangle.style.height = "500px";
@@ -942,12 +974,11 @@ function displayOptionsToBuy(player, railroad) {
     
         document.querySelector("#buyButton").addEventListener("click", buyRailroad);
         document.querySelector("#noButton").addEventListener("click", noBuyRailroad);
-    } else {
-        let color = document.querySelector("#color");
+    } else if(type === 'normal') {
+        // let color = document.querySelector("#color");
         let stats = document.querySelector("#stats");
-        let moreStats = document.querySelector("#moreStats");
-        let avenue = board[playerStats[player]["currPosition"]];
-        
+
+
         rectangle.style.width = "400px";
         rectangle.style.height = "500px";
         rectangle.style.position = "absolute";
@@ -957,7 +988,7 @@ function displayOptionsToBuy(player, railroad) {
         rectangle.style.backgroundColor = "black";
         rectangle.style.opacity = 1;
     
-        alert("Avenue For Color: " + avenue);
+        // alert("Avenue For Color: " + avenue);
         color.style.backgroundColor = avenueColor[avenue];
         color.style.height = "100px";
         color.style.width = "400px";
@@ -996,7 +1027,7 @@ function displayOptionsToBuy(player, railroad) {
         }
     
         moreStats.style.fontSize = "20px";
-    
+         
         moreStats.innerHTML += "Price per house/hotel " + avenueStats[avenue]["pricePerHouse"];
     
         rectangle.appendChild(moreStats);   
@@ -1028,9 +1059,81 @@ function displayOptionsToBuy(player, railroad) {
     
         document.querySelector("#buyButton").addEventListener("click", buy);
         document.querySelector("#noButton").addEventListener("click", noBuy);
-    }
-    
+    } else {
+        let stats = document.querySelector("#stats");
+        let img = document.createElement('img');
 
+        rectangle.style.width = "400px";
+        rectangle.style.height = "500px";
+        rectangle.style.position = "absolute";
+        rectangle.style.left = "50%";
+        rectangle.style.top = "45%";
+        rectangle.style.border = "2px solid " + avenueColor[avenue];
+        rectangle.style.backgroundColor = "black";
+        rectangle.style.opacity = 1;
+
+
+        if(board[playerStats[player]['currPosition']] === 'Electric-Company') {
+            img.src = 'ElectricCompanyImage.jpg';
+        } else {
+            img.src = 'WaterWorksImage.png';
+        }
+        img.style.position = 'absolute';
+        // img.style.left = '-10%';
+        img.style.width = '100px';
+        img.style.height = '100px';
+
+        rectangle.appendChild(img);
+        stats.style.color = "white";
+        stats.style.position = "absolute";
+        stats.style.top = "20%";
+
+        stats.innerHTML = 'If one Utility is owned, <br  />';
+        stats.innerHTML += 'rent is 4 times amount <br  />';
+        stats.innerHTML += 'shown on dice. <br  /><br  />';
+
+        stats.innerHTML += 'If both Utilities are owned, <br  />';
+        stats.innerHTML += 'rent is 10 times amount <br  />';
+        stats.innerHTML += 'shown on dice.';
+
+        stats.style.left = "30%";
+        stats.style.fontSize = "20px";
+        stats.style.border = '3px solid blue';
+        stats.style.width = '200px';
+        stats.style.width = '200px';
+
+        rectangle.appendChild(stats);
+        
+
+        let buyButton = document.createElement("btn");
+        buyButton.id = "buyButton";
+        buyButton.style.height = '100px';
+        buyButton.style.width = "150px";
+        buyButton.style.border = '3px solid white';
+        buyButton.innerHTML = "BUY";
+        buyButton.style.position = "absolute";
+        buyButton.style.top = "70%";
+        buyButton.style.left = "10%";
+        buyButton.style.backgroundColor = "green";
+        buyButton.style.color = "black";
+        rectangle.appendChild(buyButton);
+    
+        let noButton = document.createElement("btn");
+        noButton.id = "noButton";
+        noButton.style.height = '100px';
+        noButton.style.width = "150px";
+        noButton.style.border = '3px solid white';
+        noButton.innerHTML = "NO";
+        noButton.style.position = "absolute";
+        noButton.style.top = "70%";
+        noButton.style.left = "50%";
+        noButton.style.backgroundColor = "red";
+        noButton.style.color = "black";
+        rectangle.appendChild(noButton);
+     
+        document.querySelector("#buyButton").addEventListener("click", buyUtility);
+        document.querySelector("#noButton").addEventListener("click", noBuyUtility);
+    }
 }
 
 
@@ -1127,26 +1230,30 @@ function move(player) {
     moveToken(player);
     count++;
 }
+let counter = 0;
+
 function sumDice() {
-    let counter = 0;
     dice1 = Math.floor(Math.random() * 6) + 1;
     dice2 = Math.floor(Math.random() * 6) + 1;
 
     if(counter === 3) {
-        // goToJail();
+        moveTokenToPlace('#Jail-Visit');
     }
     if(dice1 === dice2 && counter != 3) {
         sumDice();
         counter++;
     }
-
+    
     let sum = dice1 + dice2;
-    return sum;
+    return sum;  
+    
 }
 
 const diceRollArr = [];
 
 function determineWhoGoesFirst(){
+    firstPlay = false;
+
     for(let i=0; i<playerCount; i++){
         let sum = sumDice();
         // let sum = 
@@ -1159,6 +1266,7 @@ function determineWhoGoesFirst(){
         }
         diceRollArr.push(sum);
     }
+
     bubbleSort(diceRollArr, diceRollArr.length);
     
     let place = 1;
@@ -1173,8 +1281,10 @@ function determineWhoGoesFirst(){
             } 
         }
     }
+
     checkPlace();
 }
+
 function swap(arr, i, j) {
     var temp = arr[i];
     arr[i] = arr[j];
@@ -1196,7 +1306,6 @@ const pieceArr = []
 
 putPiecesOnBoard();
 
-
 function putPiecesOnBoard() {
     let movement = 90;
     let movementLeft = 0;
@@ -1210,6 +1319,7 @@ function putPiecesOnBoard() {
         img.style.top = movement + "%"; 
         img.style.left = movementLeft + "%";
         img.style.zIndex = "500px";
+
         if(playerDict[playerStatsArr[i]] === 'car') {
             img.style.transform = "scaleX(-1)";
         }
@@ -1220,13 +1330,17 @@ function putPiecesOnBoard() {
     }
 }
 
-
-
 document.querySelector("#rollDice").addEventListener("click", diceRoll);
-
 
 const test = Object.keys(playerStats);
 
 function checkPlace() {
+    for(let i=0; i<playerOrder.length; i++) {
+        for(let j=i+1; j<playerOrder.length; j++) {
+            if(playerOrder[i] === playerOrder[j]) {
+                playerOrder.splice(i, 1);
+            }
+        }
+    }
     alert("Order: " + playerOrder);
 }
