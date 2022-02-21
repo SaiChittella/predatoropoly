@@ -165,8 +165,8 @@ function diceRoll() {
         determineWhoGoesFirst();
     } else {    
         alert("DiceRolll")
-        // sum = sumDice();
-        let sum = 12;
+        sum = sumDice();
+        // let sum = 12;
         if(count === playerCount) {
             count = 0;
         } 
@@ -443,15 +443,19 @@ function displayOptionsToBuyUtilities (player) {
 }
 
 function buyUtility() {
-    alert('Player is: ' + playerOrder[count-1]); 
-    alert('Player money: ' + playerStats[playerOrder[count-1]]['money']);
+    let player = playerOrder[count-1];
+
+    alert('Player is: ' + player); 
+    alert('Player money: ' + playerStats[player]['money']);
     
-    if(playerStats[playerOrder[count-1]]['money'] >= 150) {
-        playerStats[playerOrder[count - 1]]['money'] -= 150;
-        playerStats[playerOrder[count - 1]]['properties'].push(board[playerStats[playerOrder[count - 1]]['currPosition']]);
+    if(playerStats[player]['money'] >= 150) {
+        playerStats[player]['money'] -= 150;
+        playerStats[player]['properties'].push(board[playerStats[player]['currPosition']]);
     } else {
         notEnoughMoney();
     }
+
+    displayPersonStats(player);
 }
 
 function noBuyUtility() {
@@ -1078,12 +1082,15 @@ function displayOptionsToBuy(player, type) {
         } else {
             img.src = 'WaterWorksImage.png';
         }
+
         img.style.position = 'absolute';
-        // img.style.left = '-10%';
+        img.style.left = '20%';
+        img.style.top = '-55%';
+        // biryani too spicy it isn't kid
         img.style.width = '100px';
         img.style.height = '100px';
 
-        rectangle.appendChild(img);
+        
         stats.style.color = "white";
         stats.style.position = "absolute";
         stats.style.top = "20%";
@@ -1100,7 +1107,8 @@ function displayOptionsToBuy(player, type) {
         stats.style.fontSize = "20px";
         stats.style.border = '3px solid blue';
         stats.style.width = '200px';
-        stats.style.width = '200px';
+        stats.style.height = '200px';
+        stats.appendChild(img);
 
         rectangle.appendChild(stats);
         
@@ -1113,7 +1121,7 @@ function displayOptionsToBuy(player, type) {
         buyButton.innerHTML = "BUY";
         buyButton.style.position = "absolute";
         buyButton.style.top = "70%";
-        buyButton.style.left = "10%";
+        buyButton.style.left = "20%";
         buyButton.style.backgroundColor = "green";
         buyButton.style.color = "black";
         rectangle.appendChild(buyButton);
@@ -1126,7 +1134,7 @@ function displayOptionsToBuy(player, type) {
         noButton.innerHTML = "NO";
         noButton.style.position = "absolute";
         noButton.style.top = "70%";
-        noButton.style.left = "50%";
+        noButton.style.left = "60%";
         noButton.style.backgroundColor = "red";
         noButton.style.color = "black";
         rectangle.appendChild(noButton);
